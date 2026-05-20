@@ -10,7 +10,7 @@ export interface Props {
     caption?: string;
     images: string[];
   };
-  imageLayout?: 'grid' | 'masonry';
+  imageLayout?: 'grid' | 'masonry' | 'cover';
 }
 
 const { data, imageLayout = 'grid' } = Astro.props;
@@ -33,7 +33,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     {data.caption && <p class="piece-caption">{data.caption}</p>}
   </div>
 
-  <div class:list={['image-grid', { 'image-grid--masonry': imageLayout === 'masonry' }]}>
+  <div class:list={['image-grid', { 'image-grid--masonry': imageLayout === 'masonry', 'image-grid--cover': imageLayout === 'cover' }]}>
     {data.images.length > 0
       ? data.images.map((src, i) => (
           <div class="image-cell">
@@ -193,6 +193,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     width: 100%;
     height: auto;
     object-fit: unset;
+  }
+
+  /* ── Cover variant (uniform boxes, image fills/crops) ── */
+
+  .image-grid--cover .image-cell img {
+    object-fit: cover;
   }
 
   /* ── Responsive ──────────────────────────────── */
