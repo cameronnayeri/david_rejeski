@@ -16,6 +16,7 @@ export interface Props {
 const { data, imageLayout = 'grid' } = Astro.props;
 const materialsStr = data.materials.map((m) => m.toUpperCase()).join(' · ');
 const PLACEHOLDER_COUNT = 6;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <article class="piece">
@@ -36,7 +37,7 @@ const PLACEHOLDER_COUNT = 6;
     {data.images.length > 0
       ? data.images.map((src, i) => (
           <div class="image-cell">
-            <img src={src} alt={`${data.title}, view ${i + 1}`} />
+            <img src={`${base}${src}`} alt={`${data.title}, view ${i + 1}`} />
           </div>
         ))
       : Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (

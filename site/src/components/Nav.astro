@@ -3,24 +3,25 @@ export interface Props {
   active?: 'home' | 'projects' | 'sketch-object' | 'studio';
 }
 const { active } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <nav class="site-nav">
   <ul class="nav-links">
     <li>
-      <a href="/" class:list={['nav-link', { active: active === 'home' }]}>Home</a>
+      <a href={`${base}/`} class:list={['nav-link', { active: active === 'home' }]}>Home</a>
     </li>
     <li>
-      <a href="/projects" class:list={['nav-link', { active: active === 'projects' }]}>Projects</a>
+      <a href={`${base}/projects`} class:list={['nav-link', { active: active === 'projects' }]}>Projects</a>
     </li>
     <li>
       <a
-        href="/sketch-object"
+        href={`${base}/sketch-object`}
         class:list={['nav-link', { active: active === 'sketch-object' }]}
       >Sketch<span class="bar">|</span>Object</a>
     </li>
     <li>
-      <a href="/studio" class:list={['nav-link', { active: active === 'studio' }]}>Studio</a>
+      <a href={`${base}/studio`} class:list={['nav-link', { active: active === 'studio' }]}>Studio</a>
     </li>
   </ul>
   <ul class="nav-right">

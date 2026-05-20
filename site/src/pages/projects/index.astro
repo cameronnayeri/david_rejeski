@@ -21,6 +21,7 @@ const categoryCounts = allCategories
   .filter((c) => c.count > 0);
 
 const numStr = (n: number) => `No. ${String(n).padStart(2, '0')}`;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Base title="Projects" activeNav="projects">
@@ -57,10 +58,10 @@ const numStr = (n: number) => `No. ${String(n).padStart(2, '0')}`;
     <div class="piece-grid">
       {pieces.map((piece) => (
         <article class="piece-card" data-category={piece.data.category}>
-          <a href={`/projects/${piece.slug}`}>
+          <a href={`${base}/projects/${piece.slug}`}>
             <div class="card-image">
               {piece.data.images[0]
-                ? <img src={piece.data.images[0]} alt={piece.data.title} loading="lazy" />
+                ? <img src={`${base}${piece.data.images[0]}`} alt={piece.data.title} loading="lazy" />
                 : <div class="card-placeholder" />
               }
             </div>
