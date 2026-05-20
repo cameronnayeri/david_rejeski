@@ -1,0 +1,73 @@
+---
+export interface Props {
+  active?: 'home' | 'projects' | 'sketch-object' | 'studio';
+}
+const { active } = Astro.props;
+---
+
+<nav class="site-nav">
+  <ul class="nav-links">
+    <li>
+      <a href="/" class:list={['nav-link', { active: active === 'home' }]}>Home</a>
+    </li>
+    <li>
+      <a href="/projects" class:list={['nav-link', { active: active === 'projects' }]}>Projects</a>
+    </li>
+    <li>
+      <a
+        href="/sketch-object"
+        class:list={['nav-link', { active: active === 'sketch-object' }]}
+      >Sketch<span class="bar">|</span>Object</a>
+    </li>
+    <li>
+      <a href="/studio" class:list={['nav-link', { active: active === 'studio' }]}>Studio</a>
+    </li>
+  </ul>
+  <ul class="nav-right">
+    <li>
+      <a href="mailto:david@davidrejeski.com" class="nav-link">Email</a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 3rem;
+  }
+
+  .nav-links,
+  .nav-right {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+    transition: opacity 0.15s;
+  }
+
+  .nav-link:hover {
+    opacity: 0.55;
+  }
+
+  .nav-link.active {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1.5px;
+  }
+
+  .bar {
+    color: var(--accent);
+    margin: 0 1px;
+  }
+</style>

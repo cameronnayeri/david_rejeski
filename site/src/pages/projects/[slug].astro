@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PieceDetail from '../../components/PieceDetail.astro';
+
+export async function getStaticPaths() {
+  const allPieces = await getCollection('pieces', ({ data }) => data.status === 'published');
+  return allPieces.map((piece) => ({
+    params: { slug: piece.slug },
+    props: { piece },
+  }));
+}
+
+const { piece } = Astro.props;
+---
+
+<Base title={piece.data.title} activeNav="projects">
+  <PieceDetail data={piece.data} imageLayout="grid" />
+</Base>

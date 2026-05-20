@@ -1,0 +1,9 @@
+pieces/
+barn.jpeg
+pot.jpg
+woodbending.jpeg
+site/node_modules/
+site/dist/
+site/.astro/
+*.pdf
+populate.py

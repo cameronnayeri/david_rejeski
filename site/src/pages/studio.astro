@@ -1,0 +1,265 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Studio" activeNav="studio">
+  <section class="studio">
+
+    <header class="studio-header">
+      <p class="meta-label">THE STUDIO · WESTERN MASSACHUSETTS</p>
+    </header>
+
+    <div class="collage">
+
+      <div class="cell barn">
+        <img src="/images/studio/barn.jpeg" alt="The studio barn" />
+      </div>
+
+      <div class="cell intro-text">
+        <p>I work in an old gambrel roofed barn built in the late 19th century located in Western Massachusetts.</p>
+      </div>
+
+      <div class="cell placeholder guitar-carving">
+        <span>GUITAR CARVING</span>
+      </div>
+
+      <div class="cell placeholder welding">
+        <span>WELDING</span>
+      </div>
+
+      <div class="cell placeholder tools">
+        <span>TOOLS</span>
+      </div>
+
+      <div class="cell placeholder veneer-strips">
+        <span>VENEER STRIPS</span>
+      </div>
+
+      <div class="cell placeholder loom">
+        <span>LOOM</span>
+      </div>
+
+      <div class="cell woodbending">
+        <img src="/images/studio/woodbending.jpeg" alt="Wood bending jig" />
+      </div>
+
+      <div class="cell potter-text">
+        <p>I give wood shavings to a great potter,<br /><a href="https://www.berkshirepotterscollective.org/aferril" class="anne-link" target="_blank" rel="noopener">Anne Ferril</a>, who uses them to fire her pots: artistic recycling.</p>
+      </div>
+
+      <div class="cell pot">
+        <img src="/images/studio/pot.jpg" alt="Pot by Anne Ferril" />
+      </div>
+
+    </div>
+
+  </section>
+</Base>
+
+<style>
+  .studio {
+    margin-left: 32%;
+    padding: 2.5rem 3rem 7rem 2rem;
+  }
+
+  .studio-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  /* ── Collage: 12-col fine grid, rows in vw units ── */
+
+  .collage {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(32, 2.4vw);
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  /* Every cell fills its grid area completely */
+  .cell {
+    position: relative;
+    overflow: hidden;
+    background: #ECEAE0;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .cell img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+  }
+
+  /* Pot is colour, not B&W */
+  .pot img {
+    filter: none;
+    object-fit: contain;
+  }
+
+  /* ── Grid placements (overlapping = scattered) ── */
+
+  .barn {
+    grid-column: 1 / 8;
+    grid-row: 1 / 13;
+    z-index: 1;
+  }
+
+  .intro-text {
+    grid-column: 8 / 13;
+    grid-row: 1 / 7;
+    z-index: 1;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    padding-left: 1.25rem;
+  }
+
+  .guitar-carving {
+    grid-column: 5 / 10;
+    grid-row: 10 / 17;
+    z-index: 2;
+    transform: rotate(-1deg);
+  }
+
+  .welding {
+    grid-column: 9 / 13;
+    grid-row: 6 / 18;
+    z-index: 2;
+  }
+
+  .tools {
+    grid-column: 1 / 6;
+    grid-row: 14 / 20;
+    z-index: 3;
+    transform: rotate(1deg);
+  }
+
+  .veneer-strips {
+    grid-column: 5 / 10;
+    grid-row: 17 / 22;
+    z-index: 2;
+    transform: rotate(-0.5deg);
+  }
+
+  .loom {
+    grid-column: 1 / 8;
+    grid-row: 20 / 27;
+    z-index: 2;
+  }
+
+  .woodbending {
+    grid-column: 8 / 13;
+    grid-row: 19 / 26;
+    z-index: 3;
+    transform: rotate(0.75deg);
+  }
+
+  .potter-text {
+    grid-column: 1 / 4;
+    grid-row: 25 / 31;
+    z-index: 1;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    padding-right: 1rem;
+    text-align: right;
+  }
+
+  .pot {
+    grid-column: 4 / 8;
+    grid-row: 26 / 33;
+    z-index: 3;
+    background: transparent;
+    transform: rotate(-1.5deg);
+  }
+
+  /* ── Text ────────────────────────────────────── */
+
+  .intro-text p,
+  .potter-text p {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .anne-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--ink);
+  }
+
+  .anne-link:hover {
+    color: var(--accent);
+  }
+
+  /* ── Placeholders ────────────────────────────── */
+
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .placeholder span {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    opacity: 0.45;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+
+  @media (max-width: 900px) {
+    .studio {
+      margin-left: 0;
+      padding: 1.5rem 1.5rem 5rem;
+    }
+
+    .collage {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: none;
+      grid-auto-rows: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cell {
+      position: relative;
+      transform: none !important;
+    }
+
+    .barn, .guitar-carving, .welding, .tools,
+    .veneer-strips, .loom, .woodbending {
+      aspect-ratio: 4 / 3;
+    }
+
+    .cell img {
+      position: static;
+      width: 100%;
+      height: 100%;
+    }
+
+    .intro-text, .potter-text {
+      padding: 0.5rem 0;
+    }
+
+    .pot {
+      aspect-ratio: 1 / 1;
+    }
+  }
+</style>

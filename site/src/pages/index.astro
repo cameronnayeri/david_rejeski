@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="David Rejeski" activeNav="home">
+  <div class="home">
+    <p class="stub">Home — coming soon</p>
+  </div>
+</Base>
+
+<style>
+  .home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+  }
+
+  .stub {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+</style>
