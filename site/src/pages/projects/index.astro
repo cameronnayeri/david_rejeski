@@ -20,7 +20,6 @@ const categoryCounts = allCategories
   .map((cat) => ({ name: cat, count: pieces.filter((p) => p.data.category === cat).length }))
   .filter((c) => c.count > 0);
 
-const numStr = (n: number) => `No. ${String(n).padStart(2, '0')}`;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -30,7 +29,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <header class="projects-header">
       <p class="meta-label">INDEX · SELECTED WORK · {yearRange}</p>
       <h1 class="page-title">Projects</h1>
-      <p class="page-subhead">Pieces in wood and steel, from sketch to room. Filter by what they do.</p>
     </header>
 
     <hr class="divider" />
@@ -67,7 +65,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </div>
             <div class="card-info">
               <div class="card-title-row">
-                <span class="card-title">{numStr(piece.data.number)} — {piece.data.title}</span>
+                <span class="card-title">{piece.data.title}</span>
                 <span class="card-year">{piece.data.year}</span>
               </div>
               <p class="card-materials">
@@ -84,6 +82,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </Base>
 
 <script>
+  const grid = document.querySelector<HTMLElement>('.piece-grid')!;
+  const cardArr = [...grid.querySelectorAll<HTMLElement>('.piece-card')];
+  for (let i = cardArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    grid.appendChild(cardArr[j]);
+    [cardArr[i], cardArr[j]] = [cardArr[j], cardArr[i]];
+  }
+
   const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const cards = document.querySelectorAll<HTMLElement>('.piece-card');
 
@@ -121,20 +127,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .page-title {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 6vw, 5rem);
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
     font-weight: 900;
     letter-spacing: -0.03em;
     line-height: 1;
     margin-bottom: 1rem;
-  }
-
-  .page-subhead {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 1.0625rem;
-    line-height: 1.65;
-    max-width: 44ch;
-    opacity: 0.75;
   }
 
   /* ── Dividers ─────────────────────────────────── */

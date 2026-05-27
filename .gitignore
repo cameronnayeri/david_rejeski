@@ -6,4 +6,5 @@ site/node_modules/
 site/dist/
 site/.astro/
 *.pdf
+!site/public/writing/*.pdf
 populate.py

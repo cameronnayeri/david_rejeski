@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Studio E" activeNav="studio">
+  <section class="studio">
+
+    <header class="studio-header">
+      <p class="meta-label">THE STUDIO · WESTERN MASSACHUSETTS</p>
+      <h1 class="page-title">Studio</h1>
+    </header>
+
+    <hr class="divider" />
+
+    <div class="studio-body">
+
+      <div class="col-text">
+        <p>I work in an old gambrel roofed barn built in the late 19th century located in Western Massachusetts.</p>
+        <hr class="text-rule" />
+        <p>I give wood shavings to a great potter, <a href="https://www.berkshirepotterscollective.org/aferril" target="_blank" rel="noopener">Anne Ferril</a>, who uses them to fire her pots: artistic recycling.</p>
+      </div>
+
+      <div class="col-images">
+
+        <div class="full-image">
+          <img src={`${base}/images/studio/barn.jpeg`} alt="The studio barn" />
+        </div>
+
+        <div class="pair">
+          <div class="placeholder-cell"><span>GUITAR CARVING</span></div>
+          <div class="placeholder-cell"><span>WELDING</span></div>
+        </div>
+
+        <div class="full-image">
+          <img src={`${base}/images/studio/woodbending.jpeg`} alt="Wood bending jig" />
+        </div>
+
+        <div class="pair">
+          <div class="placeholder-cell"><span>TOOLS</span></div>
+          <div class="placeholder-cell"><span>VENEER STRIPS</span></div>
+        </div>
+
+        <div class="placeholder-cell full-placeholder"><span>LOOM</span></div>
+
+        <div class="pot-wrap">
+          <img src={`${base}/images/studio/pot.jpg`} alt="Pot by Anne Ferril" />
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+</Base>
+
+<style>
+  .studio {
+    margin-left: 32%;
+    padding: 2.5rem 3rem 7rem 2rem;
+  }
+
+  .studio-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Two-column body ── */
+
+  .studio-body {
+    display: grid;
+    grid-template-columns: 26fr 74fr;
+    column-gap: 3.5rem;
+    align-items: start;
+  }
+
+  /* ── Left: text ── */
+
+  .col-text {
+    position: sticky;
+    top: 2.5rem;
+    padding-top: 0.25rem;
+  }
+
+  .col-text p {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .col-text a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .col-text a:hover {
+    color: var(--accent);
+  }
+
+  .text-rule {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 1.5rem 0;
+  }
+
+  /* ── Right: narrative image sequence ── */
+
+  .col-images {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .full-image {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .full-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(100%);
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .placeholder-cell {
+    background: #ECEAE0;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .full-placeholder {
+    aspect-ratio: 16 / 7;
+  }
+
+  .placeholder-cell span {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    opacity: 0.45;
+  }
+
+  .pot-wrap {
+    background: #ECEAE0;
+    padding: 1.5rem;
+  }
+
+  .pot-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    max-height: 320px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .studio {
+      margin-left: 0;
+      padding: 1.5rem 1.5rem 5rem;
+    }
+
+    .studio-body {
+      display: block;
+    }
+
+    .col-text {
+      position: static;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>

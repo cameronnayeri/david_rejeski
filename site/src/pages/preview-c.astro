@@ -3,9 +3,9 @@ import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PieceDetail from '../components/PieceDetail.astro';
 
-const piece = await getEntry('pieces', 'fat-leg-table');
+const piece = await getEntry('pieces', 'bench');
 ---
 
 <Base title={`C — ${piece.data.title}`} activeNav="projects">
-  <PieceDetail data={piece.data} imageLayout="cover" />
+  <PieceDetail data={piece.data} imageLayout="alternating" />
 </Base>

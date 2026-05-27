@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const pairs = [
+  { num: 1,  sketchExt: 'jpg',  title: 'Library Bench',                      desc: 'The dome-topped stool emerged from sketches exploring the tension between mass and delicacy. The walnut base grounds what the cushioned dome lifts.' },
+  { num: 2,  sketchExt: 'jpg',  title: 'Negative Space',                      desc: '' },
+  { num: 3,  sketchExt: 'jpg',  title: 'Bookcase',                            desc: 'Drawn from a long fascination with the Pagoda form, this bookcase takes the idea of shelter and applies it to books. The rendering came first — the wood followed its logic almost automatically. The final piece departs from the rendering in one key way: the shelves became lighter.' },
+  { num: 4,  sketchExt: 'jpg',  title: 'Corner Shelf Balancing Balls',        desc: 'Each shelf finds its level independently.' },
+  { num: 5,  sketchExt: 'jpg',  title: 'Fat Leg Table',                       desc: 'The legs are the point. Tapered cylinders in cherry, they reference classical column forms while remaining entirely contemporary in their relationship to the walnut top.' },
+  { num: 6,  sketchExt: 'jpg',  title: 'Side Table',                          desc: '' },
+  { num: 7,  sketchExt: 'jpg',  title: 'Ex-Smoker Bowls',                     desc: 'A piece born of quitting. The thin steel legs feel like something held between two fingers. Objects for a reformed habit, made with the same precision the habit once demanded.' },
+  { num: 8,  sketchExt: 'jpg',  title: 'Stacking Tables',                     desc: 'Oval over oval.' },
+  { num: 9,  sketchExt: 'png',  title: 'Cradle with Rocking Adjustment',      desc: 'The mechanism allows the rocker to be locked at different angles, changing the tempo of the rock. A piece that admits the parent has needs too.' },
+  { num: 10, sketchExt: 'jpg',  title: 'Pencil Holder Sharpener',             desc: '' },
+  { num: 11, sketchExt: 'png',  title: '3-Step Table',                        desc: 'Stacks up.' },
+  { num: 12, sketchExt: 'jpeg', title: 'Paradox Coffee Table',                desc: 'The table top floats on wire legs that zigzag and terminate in small turned pendulums — a table that looks as if it is in the middle of deciding whether to stay still. The visual instability is the point. It sits perfectly.' },
+  { num: 13, sketchExt: 'jpg',  title: 'Table Looses Leg',                    desc: 'A root slab top on turned legs — one of which is a prosthetic. The piece started with a found leg and worked outward.' },
+  { num: 14, sketchExt: 'jpg',  title: 'Music Stand Fuer Elise',              desc: 'For a pianist.' },
+  { num: 15, sketchExt: 'jpg',  title: '3-for-1 Bowl w/ Crumb Clean Out',     desc: 'One bowl, three functions. The sketchbook page says it all — materials called out by name, crumb drain engineered before the first cut.' },
+];
+---
+
+<Base title="Sketch | Object" activeNav="sketch-object">
+  <section class="so-page">
+
+    <header class="so-header">
+      <p class="meta-label">SKETCH · OBJECT · SELECTED WORK</p>
+      <h1 class="page-title">Sketch | Object</h1>
+    </header>
+
+    <hr class="divider" />
+
+    <div class="pairs">
+      {pairs.map((p) => (
+        <div class="pair">
+          <p class="pair-name">{p.title}</p>
+          <div class="pair-images">
+            <div class="img-wrap">
+              <img src={`${base}/sketches+images/${p.num}a.${p.sketchExt}`} alt={`${p.title} — sketch`} />
+            </div>
+            <div class="img-wrap">
+              <img src={`${base}/sketches+images/${p.num}b.jpg`} alt={`${p.title} — object`} />
+            </div>
+          </div>
+          {p.desc && <p class="pair-desc">{p.desc}</p>}
+          <hr class="pair-rule" />
+        </div>
+      ))}
+    </div>
+
+  </section>
+</Base>
+
+<style>
+  .so-page {
+    margin-left: 32%;
+    padding: 2.5rem 3rem 7rem 2rem;
+  }
+
+  .so-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Pairs ── */
+
+  .pairs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pair {
+    padding-bottom: 2.5rem;
+  }
+
+  .pair-name {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .pair-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .img-wrap {
+    overflow: hidden;
+  }
+
+  .img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .pair-desc {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: var(--ink);
+    max-width: 60ch;
+    opacity: 0.8;
+  }
+
+  .pair-rule {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .so-page {
+      margin-left: 0;
+      padding: 1.5rem 1.5rem 5rem;
+    }
+
+    .pair-images {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
