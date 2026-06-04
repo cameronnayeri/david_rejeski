@@ -1,0 +1,117 @@
+<!-- Drop this component anywhere inside a Base layout. -->
+<!-- Tag any <img> with data-lightbox to make it openable. -->
+
+<div id="lb" class="lb" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" aria-label="Close">&#x2715;</button>
+  <button class="lb-prev" aria-label="Previous">&#x2039;</button>
+  <img class="lb-img" src="" alt="" />
+  <button class="lb-next" aria-label="Next">&#x203A;</button>
+</div>
+
+<style is:global>
+  .lb {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.92);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lb.open {
+    display: flex;
+  }
+
+  .lb-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+  }
+
+  .lb-close,
+  .lb-prev,
+  .lb-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    line-height: 1;
+    padding: 0.5rem;
+  }
+
+  .lb-close:hover,
+  .lb-prev:hover,
+  .lb-next:hover {
+    opacity: 1;
+  }
+
+  .lb-close {
+    top: 1.25rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .lb-prev,
+  .lb-next {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+  }
+
+  .lb-prev { left: 1.25rem; }
+  .lb-next { right: 1.25rem; }
+
+  [data-lightbox] {
+    cursor: zoom-in;
+  }
+</style>
+
+<script>
+  const lb = document.getElementById('lb')!;
+  const lbImg = lb.querySelector<HTMLImageElement>('.lb-img')!;
+
+  let images: HTMLImageElement[] = [];
+  let current = 0;
+
+  function open(index: number) {
+    current = index;
+    lbImg.src = images[index].src;
+    lbImg.alt = images[index].alt;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function prev() { open((current - 1 + images.length) % images.length); }
+  function next() { open((current + 1) % images.length); }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    images = [...document.querySelectorAll<HTMLImageElement>('[data-lightbox]')];
+    images.forEach((img, i) => img.addEventListener('click', () => open(i)));
+  });
+
+  lb.querySelector('.lb-close')!.addEventListener('click', close);
+  lb.querySelector('.lb-prev')!.addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+  lb.querySelector('.lb-next')!.addEventListener('click', (e) => { e.stopPropagation(); next(); });
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+</script>
