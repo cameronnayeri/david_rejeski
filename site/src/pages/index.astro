@@ -33,12 +33,12 @@ import Base from '../layouts/Base.astro';
   .logo-row {
     display: flex;
     align-items: center;
-    gap: 0;
+    font-size: clamp(5rem, 13vw, 11rem);
   }
 
   .logo-text {
     font-family: var(--font-display);
-    font-size: clamp(5rem, 13vw, 11rem);
+    font-size: 1em;
     font-weight: 900;
     letter-spacing: -0.02em;
     line-height: 1;
@@ -57,6 +57,7 @@ import Base from '../layouts/Base.astro';
   .logo-sub {
     font-family: var(--font-mono);
     font-size: clamp(0.6rem, 1vw, 0.8125rem);
+    font-weight: 700;
     letter-spacing: 0.18em;
     color: var(--accent);
   }
