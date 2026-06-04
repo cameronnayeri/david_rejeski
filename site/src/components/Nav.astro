@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  active?: 'home' | 'projects' | 'sketch-object' | 'studio';
+  active?: 'home' | 'projects' | 'sketch-object' | 'sketches' | 'studio';
 }
 const { active } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,6 +19,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         href={`${base}/sketch-object`}
         class:list={['nav-link', { active: active === 'sketch-object' }]}
       >2D<span class="bar">|</span>3D</a>
+    </li>
+    <li>
+      <a href={`${base}/sketches`} class:list={['nav-link', { active: active === 'sketches' }]}>Sketches</a>
     </li>
     <li>
       <a href={`${base}/studio`} class:list={['nav-link', { active: active === 'studio' }]}>Studio</a>
