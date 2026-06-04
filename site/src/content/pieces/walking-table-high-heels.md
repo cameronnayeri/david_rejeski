@@ -10,6 +10,5 @@ images:
   - "/images/walking-table-high-heels/03_img_5537.jpg"
   - "/images/walking-table-high-heels/04_img_5547.jpg"
   - "/images/walking-table-high-heels/05_img_5564.jpg"
-  - "/images/walking-table-high-heels/06_louboutinheels.jpg"
 status: "published"
 ---

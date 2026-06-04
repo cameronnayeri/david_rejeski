@@ -11,6 +11,5 @@ images:
   - "/images/table-looses-leg/03_topview1.jpg"
   - "/images/table-looses-leg/04_topview2.jpg"
   - "/images/table-looses-leg/05_topcloseup.jpg"
-  - "/images/table-looses-leg/06_tablesketchlostleg.jpg"
 status: "published"
 ---

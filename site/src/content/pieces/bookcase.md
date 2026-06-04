@@ -11,6 +11,5 @@ images:
   - "/images/bookcase/04_img_6426.jpg"
   - "/images/bookcase/05_img_6413.jpg"
   - "/images/bookcase/06_img_6424.jpg"
-  - "/images/bookcase/07_bookcaserendering.jpg"
 status: "published"
 ---

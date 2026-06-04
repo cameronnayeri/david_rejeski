@@ -10,6 +10,5 @@ images:
   - "/images/ex-smoker-bowls-1/03_img_6469.jpg"
   - "/images/ex-smoker-bowls-1/04_img_6478.jpg"
   - "/images/ex-smoker-bowls-1/05_img_6479.jpg"
-  - "/images/ex-smoker-bowls-1/06_screen_shot_2025-01-14_at_5_04_09_pm.png"
 status: "published"
 ---

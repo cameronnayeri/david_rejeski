@@ -11,6 +11,5 @@ images:
   - "/images/music-stand-fuer-elise/04_img_5754.jpg"
   - "/images/music-stand-fuer-elise/05_img_5743.jpg"
   - "/images/music-stand-fuer-elise/06_img_5759.jpg"
-  - "/images/music-stand-fuer-elise/07_img_5789.jpg"
 status: "published"
 ---

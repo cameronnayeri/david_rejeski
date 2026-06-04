@@ -11,7 +11,5 @@ images:
   - "/images/bench/04_img_6160.jpg"
   - "/images/bench/05_img_6172.jpg"
   - "/images/bench/06_benchwithcushion.jpg"
-  - "/images/bench/07_martinbenchsketch.jpg"
-  - "/images/bench/08_img_6140.jpg"
 status: "published"
 ---

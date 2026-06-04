@@ -11,7 +11,5 @@ images:
   - "/images/negative-space/04_img_6208.jpg"
   - "/images/negative-space/05_img_6219.jpg"
   - "/images/negative-space/06_img_6238.jpg"
-  - "/images/negative-space/07_rotationsketch.jpg"
-  - "/images/negative-space/08_sketch.jpg"
 status: "published"
 ---

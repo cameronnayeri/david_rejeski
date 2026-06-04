@@ -13,6 +13,5 @@ images:
   - "/images/warp-weighted-loom/05_rachet.jpg"
   - "/images/warp-weighted-loom/06_legs.jpg"
   - "/images/warp-weighted-loom/07_loomwithrug.jpg"
-  - "/images/warp-weighted-loom/08_icelandic_warp_weighted_loom.jpg"
 status: "published"
 ---

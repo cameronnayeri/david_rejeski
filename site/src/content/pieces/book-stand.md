@@ -12,6 +12,5 @@ images:
   - "/images/book-stand/04_img_6633.jpg"
   - "/images/book-stand/05_img_6617.jpg"
   - "/images/book-stand/06_img_6629.jpg"
-  - "/images/book-stand/07_sketch.jpeg"
 status: "published"
 ---

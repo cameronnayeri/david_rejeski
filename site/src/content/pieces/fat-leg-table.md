@@ -11,7 +11,5 @@ images:
   - "/images/fat-leg-table/03_img_6336.jpg"
   - "/images/fat-leg-table/04_img_6338.jpg"
   - "/images/fat-leg-table/05_img_6328.jpg"
-  - "/images/fat-leg-table/06_fatlegtablesketch.jpg"
-  - "/images/fat-leg-table/07_legonlathe.jpg"
 status: "published"
 ---

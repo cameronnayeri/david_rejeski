@@ -9,6 +9,5 @@ images:
   - "/images/for-books/02_bookcase2.jpg"
   - "/images/for-books/03_bookcase3.jpg"
   - "/images/for-books/04_bookcase4.jpg"
-  - "/images/for-books/05_bookcase5.jpg"
 status: "published"
 ---

@@ -11,6 +11,5 @@ images:
   - "/images/bed-table/04_img_5030.jpg"
   - "/images/bed-table/05_img_5014.jpg"
   - "/images/bed-table/06_img_5027.jpg"
-  - "/images/bed-table/07_sketchesfinal.jpg"
 status: "published"
 ---

@@ -11,7 +11,5 @@ images:
   - "/images/pencil-holder-sharpener/04_img_6517.jpg"
   - "/images/pencil-holder-sharpener/05_img_6506.jpg"
   - "/images/pencil-holder-sharpener/06_img_6508.jpg"
-  - "/images/pencil-holder-sharpener/07_img_6523.jpg"
-  - "/images/pencil-holder-sharpener/08_welding.jpeg"
 status: "published"
 ---

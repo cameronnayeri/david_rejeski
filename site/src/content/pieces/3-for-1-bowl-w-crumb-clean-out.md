@@ -11,6 +11,5 @@ images:
   - "/images/3-for-1-bowl-w-crumb-clean-out/04_img_4940_copy.jpg"
   - "/images/3-for-1-bowl-w-crumb-clean-out/05_img_4962_copy.jpg"
   - "/images/3-for-1-bowl-w-crumb-clean-out/06_img_4945_copy.jpg"
-  - "/images/3-for-1-bowl-w-crumb-clean-out/07_bowlsketch2.jpg"
 status: "published"
 ---

@@ -6,7 +6,6 @@ category: "Lamps"
 materials: ["Black Walnut", "Cherry", "48\" high, 10\" diameter"]
 images:
   - "/images/bauhauslamp2/01_img_5403.jpg"
-  - "/images/bauhauslamp2/02_buashauslampnew.jpg"
   - "/images/bauhauslamp2/03_img_5395.jpg"
   - "/images/bauhauslamp2/04_img_5409.jpg"
   - "/images/bauhauslamp2/05_img_5418.jpg"

@@ -6,7 +6,6 @@ category: "Chairs & Stools"
 materials: ["Zebrawood", "Black Walnut", "Cocobolo"]
 description: "Chair on display at the German Design Museum, Berlin, from April 18 to May 1, 2026."
 images:
-  - "/images/stuhl/01_designmuseumopening.jpeg"
   - "/images/stuhl/02_rejeskichair.jpeg"
   - "/images/stuhl/03_chair1.jpg"
   - "/images/stuhl/04_chair2.jpg"
