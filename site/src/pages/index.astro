@@ -10,7 +10,11 @@ import Base from '../layouts/Base.astro';
         <span class="logo-bar"></span>
         <span class="logo-text">3D</span>
       </div>
-      <p class="logo-sub">FURNITURE &nbsp;·&nbsp; SCULPTURE &nbsp;·&nbsp; DESIGN</p>
+      <p class="logo-sub">
+        <span class="sub-side">FURNITURE&nbsp;·</span>
+        <span>SCULPTURE</span>
+        <span class="sub-side sub-right">·&nbsp;DESIGN</span>
+      </p>
     </div>
   </div>
 </Base>
@@ -59,7 +63,17 @@ import Base from '../layouts/Base.astro';
     font-size: clamp(0.6rem, 1vw, 0.8125rem);
     font-weight: 700;
     letter-spacing: 0.18em;
-    padding-left: 0.18em;
     color: var(--accent);
+    display: inline-grid;
+    grid-template-columns: 1fr auto 1fr;
+    column-gap: 0.5em;
+  }
+
+  .sub-side {
+    text-align: right;
+  }
+
+  .sub-right {
+    text-align: left;
   }
 </style>
