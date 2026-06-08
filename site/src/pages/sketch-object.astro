@@ -36,14 +36,34 @@ const pairs = [
       {pairs.map((p) => (
         <div class="pair">
           <p class="pair-name">{p.title}</p>
-          <div class="pair-images">
-            <div class="img-wrap">
-              <img src={`${base}/sketches+images/${p.num}a.${p.sketchExt}`} alt={`${p.title} — sketch`} data-lightbox />
+
+          {p.num === 1 ? (
+            /* ── SAMPLE: new composite layout ── */
+            <div class="composite-frame" data-lightbox>
+              <img
+                class="composite-photo"
+                src={`${base}/2d3d/${p.num}b.jpg`}
+                alt={`${p.title} — object`}
+              />
+              <div class="composite-gradient" />
+              <img
+                class="composite-sketch"
+                src={`${base}/sketches+images/${p.num}a.${p.sketchExt}`}
+                alt={`${p.title} — sketch`}
+              />
             </div>
-            <div class="img-wrap">
-              <img src={`${base}/sketches+images/${p.num}b.jpg`} alt={`${p.title} — object`} data-lightbox />
+          ) : (
+            /* ── original two-column layout ── */
+            <div class="pair-images">
+              <div class="img-wrap">
+                <img src={`${base}/sketches+images/${p.num}a.${p.sketchExt}`} alt={`${p.title} — sketch`} data-lightbox />
+              </div>
+              <div class="img-wrap">
+                <img src={`${base}/sketches+images/${p.num}b.jpg`} alt={`${p.title} — object`} data-lightbox />
+              </div>
             </div>
-          </div>
+          )}
+
           {p.desc && <p class="pair-desc">{p.desc}</p>}
           <hr class="pair-rule" />
         </div>
@@ -126,6 +146,41 @@ const pairs = [
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  /* ── Composite (new format) ── */
+
+  .composite-frame {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .composite-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .composite-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0.35) 40%,
+      transparent 65%
+    );
+    pointer-events: none;
+  }
+
+  .composite-sketch {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    width: 36%;
+    height: auto;
+    object-fit: contain;
   }
 
   .pair-desc {
