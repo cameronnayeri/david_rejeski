@@ -12,5 +12,5 @@ images:
   - "/images/dog/04_yodacloseup.jpeg"
   - "/images/dog/05_yodainsnow.jpeg"
   - "/images/dog/06_yodawithlightsaber.jpeg"
-status: "published"
+status: "archived"
 ---

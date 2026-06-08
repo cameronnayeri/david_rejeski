@@ -14,7 +14,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
       <p class="bio-text">I am a designer who builds things. It sounds straightforward and it really is. I start with a conversation — with myself or with a client — and progress to sketches and renderings before ever touching a material. Move neurons, then the pencil, then the saw. I believe that the boundaries between craft and art are fluid so that furniture can be more than functional and decorative, it can make you think and laugh. I try to take risks with every piece I design and make.</p>
 
-      <p class="bio-text">Everyone has their own set of motivations. Here are some of mine. I spent two years in a woodworking shop watching and learning from one of the great woodworkers of the 20th century: <a href="https://en.wikipedia.org/wiki/Tage_Frid" target="_blank" rel="noopener">Tage Frid</a>. Wood is a great medium, but it is not everything, so I recently learned how to weld from a friend and sculptor Walter Boeke. My father taught me 2- and 3-point perspective when I was eight years old but I really learned to draw from <a href="https://www.bryonfitzpatrick.com/" target="_blank" rel="noopener">Bryon Fitzpatrick</a>, a.k.a., the drawing machine. <a href="https://en.wikipedia.org/wiki/Marc_Harrison" target="_blank" rel="noopener">Marc Harrison</a> helped me think of design in a much broader sense (Universal Design). Most have left this earth, but they left their mark.</p>
+      <p class="bio-text">Everyone has their own set of motivations. Here are some of mine. I spent two years in a woodworking shop watching and learning from one of the great woodworkers of the 20th century: <a href="https://en.wikipedia.org/wiki/Tage_Frid" target="_blank" rel="noopener">Tage Frid</a>. Wood is a great medium, but it is not everything, so I recently learned how to weld from a friend and sculptor <a href="https://www.walterboelke.com/index.html" target="_blank" rel="noopener">Walter Boeke</a>. My father taught me 2- and 3-point perspective when I was eight years old but I really learned to draw from <a href="https://www.bryonfitzpatrick.com/" target="_blank" rel="noopener">Bryon Fitzpatrick</a>, a.k.a., the drawing machine. <a href="https://en.wikipedia.org/wiki/Marc_Harrison" target="_blank" rel="noopener">Marc Harrison</a> helped me think of design in a much broader sense (Universal Design). Most have left this earth, but they left their mark.</p>
 
       <p class="bio-text">I have the advantage of living in two countries — the US and Germany — each with its own set of influences, ranging from Shaker furniture and early American arts and crafts to the German Bauhaus and the <a href="https://www.deutscher-werkbund.de/wir-im-dwb/basic-information-in-english/" target="_blank" rel="noopener">Werkbund</a>.</p>
 
@@ -32,10 +32,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <div>
           <p class="writing-label">WRITING</p>
           <ul class="writing-list">
-            <li><a href={`${base}/writing/vienna-coffeehouses`}>Vienna: Ten Coffeehouses in Ten Days</a></li>
-            <li><a href={`${base}/writing/bring-back-the-worlds-fair`}>Bring Back the World's Fair</a></li>
-            <li><a href={`${base}/writing/can-crafts-be-saved`}>Can Crafts Be Saved?</a></li>
-            <li><a href={`${base}/writing/revolutions-in-the-making`}>Revolutions in the Making</a></li>
+            <li><a href={`${base}/writing/vienna-coffeehouses.pdf`} target="_blank" rel="noopener">Vienna: Ten Coffeehouses in Ten Days</a></li>
+            <li><a href={`${base}/writing/bring-back-the-worlds-fair.doc`} target="_blank" rel="noopener">Bring Back the World's Fair</a></li>
+            <li><a href={`${base}/writing/can-crafts-be-saved.pdf`} target="_blank" rel="noopener">Can Crafts Be Saved?</a></li>
+            <li><a href={`${base}/writing/revolutions-in-the-making.pdf`} target="_blank" rel="noopener">Revolutions in the Making</a></li>
+            <li><span class="writing-placeholder">Stop! Thinking about Extinction</span></li>
           </ul>
         </div>
         <img class="dave-sketch" src={`${base}/images/studio/davesketch.jpg`} alt="Sketch" />
@@ -60,21 +61,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <img src={`${base}/images/studio/barn.jpeg`} alt="The studio barn" />
         </div>
 
-        <div class="pair">
-          <div class="placeholder-cell"><span>GUITAR CARVING</span></div>
-          <div class="placeholder-cell"><span>WELDING</span></div>
+        <div class="trio">
+          <div class="img-cell"><img src={`${base}/images/studio/welding.jpeg`} alt="Welding" /></div>
+          <div class="img-cell"><img src={`${base}/images/studio/lathe.jpg`} alt="Lathe work" /></div>
+          <div class="img-cell"><img src={`${base}/images/studio/dog.jpeg`} alt="Yoda" /></div>
         </div>
 
         <div class="full-image">
           <img src={`${base}/images/studio/woodbending.jpeg`} alt="Wood bending jig" />
         </div>
-
-        <div class="pair">
-          <div class="placeholder-cell"><span>TOOLS</span></div>
-          <div class="placeholder-cell"><span>VENEER STRIPS</span></div>
-        </div>
-
-        <div class="placeholder-cell full-placeholder"><span>LOOM</span></div>
 
         <div class="potter-row">
           <div class="pot-wrap">
@@ -308,6 +303,28 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     letter-spacing: 0.18em;
     color: var(--muted);
     opacity: 0.45;
+  }
+
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .img-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+  }
+
+  .writing-placeholder {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--muted);
+    opacity: 0.5;
   }
 
   /* ── Potter row ── */
