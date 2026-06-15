@@ -6,7 +6,7 @@ import PieceDetail from '../../components/PieceDetail.astro';
 export async function getStaticPaths() {
   const allPieces = await getCollection('pieces', ({ data }) => data.status === 'published');
   return allPieces.map((piece) => ({
-    params: { slug: piece.slug },
+    params: { slug: piece.id },
     props: { piece },
   }));
 }

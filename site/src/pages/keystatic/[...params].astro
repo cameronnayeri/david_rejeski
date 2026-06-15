@@ -1,0 +1,8 @@
+---
+import KeystaticAdmin from '../../components/KeystaticAdmin';
+
+export const prerender = !import.meta.env.DEV;
+export function getStaticPaths() { return []; }
+---
+
+<KeystaticAdmin client:only="react" />
