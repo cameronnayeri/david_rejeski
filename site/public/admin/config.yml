@@ -3,6 +3,7 @@ backend:
   repo: cameronnayeri/david_rejeski
   branch: main
   base_url: https://davidrejeski.netlify.app
+  site_domain: davidrejeski.netlify.app
 
 site_url: https://cameronnayeri.github.io/david_rejeski
 
