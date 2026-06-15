@@ -10,11 +10,6 @@ const pieces = allPieces.sort((a, b) => {
   return orderA - orderB;
 });
 
-const years = pieces.map((p) => p.data.year);
-const minYear = Math.min(...years);
-const maxYear = Math.max(...years);
-const yearRange = minYear === maxYear ? String(minYear) : `${minYear} — ${maxYear}`;
-
 const allCategories = ['Chairs & Stools', 'Tables', 'Lamps', 'Sculpture', 'Whimsies', 'Commission'] as const;
 const categoryCounts = allCategories
   .map((cat) => ({ name: cat, count: pieces.filter((p) => p.data.category === cat).length }))
@@ -27,7 +22,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <section class="projects">
 
     <header class="projects-header">
-      <p class="meta-label">INDEX · SELECTED WORK · {yearRange}</p>
+      <p class="meta-label">INDEX</p>
       <h1 class="page-title">Projects</h1>
     </header>
 
