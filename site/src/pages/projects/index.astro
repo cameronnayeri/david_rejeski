@@ -294,14 +294,31 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
   }
 
+  @media (max-width: 640px) {
+    .filter-bar {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      flex-wrap: nowrap;
+      padding: 0.5rem 0;
+    }
+
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filters {
+      flex-wrap: nowrap;
+    }
+
+    .filter-btn {
+      white-space: nowrap;
+      min-height: 44px;
+      padding: 0.5rem 0;
+    }
+  }
+
   @media (max-width: 480px) {
     .piece-grid {
       grid-template-columns: 1fr;
-    }
-
-    .filter-bar {
-      flex-direction: column;
-      gap: 0.75rem;
     }
   }
 </style>
