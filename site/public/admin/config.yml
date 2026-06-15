@@ -1,0 +1,96 @@
+backend:
+  name: github
+  repo: cameronnayeri/david_rejeski
+  branch: main
+  base_url: https://davidrejeski.netlify.app
+
+site_url: https://cameronnayeri.github.io/david_rejeski
+
+media_folder: site/public/images
+public_folder: /images
+
+collections:
+  - name: pieces
+    label: Projects
+    folder: site/src/content/pieces
+    create: true
+    delete: true
+    slug: "{{fields.title | slugify}}"
+    media_folder: "site/public/images/{{slug}}"
+    public_folder: "/images/{{slug}}"
+    fields:
+      - label: Title
+        name: title
+        widget: string
+
+      - label: Number
+        name: number
+        widget: number
+        value_type: int
+        required: false
+
+      - label: Year
+        name: year
+        widget: number
+        value_type: int
+        required: false
+
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - Chairs & Stools
+          - Tables
+          - Lamps
+          - Sculpture
+          - Whimsies
+          - Commission
+        default: Whimsies
+
+      - label: Materials
+        name: materials
+        widget: list
+        required: false
+        field:
+          label: Material
+          name: material
+          widget: string
+
+      - label: Description
+        name: description
+        widget: text
+        required: false
+
+      - label: Images
+        name: images
+        widget: list
+        required: false
+        field:
+          label: Image
+          name: image
+          widget: image
+
+      - label: Featured on home page
+        name: featured
+        widget: boolean
+        default: false
+        required: false
+
+      - label: Status
+        name: status
+        widget: select
+        options:
+          - published
+          - draft
+          - archived
+        default: published
+
+      - label: Sort order
+        name: order
+        widget: number
+        required: false
+
+      - label: Notes
+        name: body
+        widget: markdown
+        required: false
