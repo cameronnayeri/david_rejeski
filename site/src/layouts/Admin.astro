@@ -2,7 +2,7 @@
 export interface Props {
   title: string;
   showNav?: boolean;
-  section?: 'projects' | 'sketches' | 'studio';
+  section?: 'projects' | 'sketches' | 'studio' | 'media';
 }
 const { title, showNav = false, section } = Astro.props;
 const user = Astro.locals.user;
@@ -34,6 +34,7 @@ const user = Astro.locals.user;
         <a href="/admin/dashboard" class:list={['admin-tab', { active: section === 'projects' }]}>Projects</a>
         <a href="/admin/sketches" class:list={['admin-tab', { active: section === 'sketches' }]}>Sketches</a>
         <a href="/admin/studio" class:list={['admin-tab', { active: section === 'studio' }]}>Studio</a>
+        <a href="/admin/media" class:list={['admin-tab', { active: section === 'media' }]}>Media</a>
       </nav>
     )}
     <main class="admin-main">
