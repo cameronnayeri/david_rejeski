@@ -1,0 +1,100 @@
+---
+import Admin from '../../layouts/Admin.astro';
+export const prerender = false;
+---
+
+<Admin title="Help" showNav section="help">
+  <div class="help">
+    <h1>How to use the Admin Panel</h1>
+    <p class="lede">
+      This is where you manage your website. Anything you change here goes live
+      on the site right away — there's nothing else to publish or upload.
+    </p>
+
+    <section>
+      <h2>The basics</h2>
+      <ul>
+        <li>The tabs at the top — <strong>Projects</strong>, <strong>Sketches</strong>,
+          <strong>Studio</strong>, <strong>Media</strong>, <strong>Help</strong> — are the
+          different parts of your site you can edit.</li>
+        <li>Every change saves to the live website immediately once you click <strong>Save</strong>.</li>
+        <li>Use <strong>View site ↗</strong> (top right) to open your real website in a new tab and check your work.</li>
+        <li>Click <strong>Log out</strong> when you're done. You stay logged in for 30 days.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📁 Projects</h2>
+      <p>Your furniture, sculpture, and other finished work.</p>
+      <ul>
+        <li><strong>Add one:</strong> click <strong>+ New project</strong>, fill in the details, then <strong>Create project</strong>.</li>
+        <li><strong>Edit one:</strong> click any project in the list (or <strong>Edit</strong>), make changes, then <strong>Save changes</strong>.</li>
+        <li><strong>Delete one:</strong> click the red trash icon 🗑. This can't be undone.</li>
+        <li><strong>Photos:</strong> drag image files onto the upload box, or click
+          <strong>Choose files</strong>. To reuse a photo you've uploaded before, click
+          <strong>Pick from library</strong>.</li>
+        <li><strong>Photo order:</strong> drag the thumbnails to rearrange them. The first
+          photo (marked "cover") is the one shown on the projects page.</li>
+        <li><strong>Status:</strong> set to <em>Published</em> to show it on the site,
+          <em>Draft</em> to hide it while you work, or <em>Archived</em> to retire it.</li>
+        <li><strong>Materials and Dimensions:</strong> put each one on its own line.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>✏️ Sketches</h2>
+      <p>Your 2D drawings and paintings. Each sketch is just a <strong>title and one image</strong>.</p>
+      <ul>
+        <li>Works the same as Projects: <strong>+ New sketch</strong> to add, click to edit, red trash icon to delete.</li>
+        <li>Drag-and-drop the image or pick one from the library.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🏠 Studio</h2>
+      <p>The written text on your Studio / About page.</p>
+      <ul>
+        <li>Edit the wording in the boxes and click <strong>Save changes</strong>.</li>
+        <li>To make a link, write it like this:
+          <code>[the words you see](https://the-website.com)</code>.</li>
+        <li>For <strong>bold</strong> wrap words in two stars: <code>**like this**</code>.
+          For <em>italics</em> use one star: <code>*like this*</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🖼 Media</h2>
+      <p>All the images you've uploaded, in one place.</p>
+      <ul>
+        <li>Under each image you'll see where it's used (which project or sketch).</li>
+        <li>Images that aren't used anywhere say <em>Not used</em> and have a red trash icon —
+          you can safely delete those to tidy up.</li>
+        <li>Images that are in use <strong>can't be deleted</strong>, so you can never accidentally
+          break a page. To remove one, first take it off the project or sketch, then come back here.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Forgot your password?</h2>
+      <p>
+        On the login screen, click <strong>Forgot password?</strong> and follow the steps.
+        If you get stuck, contact your site developer.
+      </p>
+    </section>
+  </div>
+</Admin>
+
+<style>
+  .help { max-width: 680px; }
+  .help h1 { font-size: 1.7rem; margin-bottom: 0.75rem; }
+  .lede { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+  .help section { margin-bottom: 2rem; }
+  .help h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .help section > p { color: var(--ink); margin-bottom: 0.6rem; }
+  .help ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .help li { line-height: 1.6; }
+  .help code {
+    font-family: var(--font-mono); font-size: 0.85em; background: var(--field);
+    border: 1px solid var(--divider); border-radius: 4px; padding: 0.05rem 0.35rem;
+  }
+</style>
