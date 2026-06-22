@@ -1,0 +1,194 @@
+---
+import type { Sketch } from '../lib/db';
+
+export interface Props {
+  sketch?: Sketch;
+}
+const { sketch } = Astro.props;
+const isEdit = !!sketch;
+---
+
+<form id="sketch-form" data-id={sketch?.id ?? ''}>
+  <div id="msg" class="msg msg-error" hidden></div>
+
+  <div class="field">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" required value={sketch?.title ?? ''} />
+  </div>
+
+  <div class="field">
+    <label>Image</label>
+    <div id="dropzone" class="dropzone">
+      <p>Drag &amp; drop an image here, or</p>
+      <div class="dz-buttons">
+        <button type="button" class="btn btn-secondary" id="pick-files">Choose file</button>
+        <button type="button" class="btn btn-secondary" id="pick-library">Pick from library</button>
+      </div>
+      <input type="file" id="file-input" accept="image/*" hidden />
+    </div>
+    <div id="preview" class="preview" hidden>
+      <img id="preview-img" src="" alt="" />
+      <button type="button" class="img-remove" id="img-remove" title="Remove">×</button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn" id="save-btn">{isEdit ? 'Save changes' : 'Create sketch'}</button>
+    <a href="/admin/sketches" class="btn btn-secondary">Cancel</a>
+    {isEdit && (
+      <button type="button" class="btn btn-danger" id="delete-btn" style="margin-left:auto">Delete</button>
+    )}
+  </div>
+</form>
+
+<!-- Library picker modal -->
+<div id="library-modal" class="modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head">
+      <strong>Image library</strong>
+      <button type="button" class="admin-link" id="lib-close">Close</button>
+    </div>
+    <div id="lib-grid" class="lib-grid"><p class="lib-loading">Loading…</p></div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ initialImage: sketch?.image ?? '' }}>
+  (function () {
+    const form = document.getElementById('sketch-form');
+    const id = form.dataset.id;
+    const msg = document.getElementById('msg');
+    const fileInput = document.getElementById('file-input');
+    const dropzone = document.getElementById('dropzone');
+    const preview = document.getElementById('preview');
+    const previewImg = document.getElementById('preview-img');
+    let image = initialImage;
+
+    function render() {
+      if (image) { previewImg.src = image; preview.hidden = false; }
+      else { previewImg.src = ''; preview.hidden = true; }
+    }
+
+    function showError(text) { msg.className = 'msg msg-error'; msg.textContent = text; msg.hidden = false; }
+
+    async function uploadFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('slug', 'sketches');
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const out = await res.json();
+      if (out.ok) { image = out.url; render(); }
+      else showError(out.error || 'Upload failed.');
+    }
+
+    document.getElementById('pick-files').addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => uploadFile(fileInput.files[0]));
+    document.getElementById('img-remove').addEventListener('click', () => { image = ''; render(); });
+
+    ['dragenter', 'dragover'].forEach((ev) =>
+      dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach((ev) =>
+      dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.remove('over'); }));
+    dropzone.addEventListener('drop', (e) => uploadFile(e.dataTransfer.files[0]));
+
+    // library
+    const modal = document.getElementById('library-modal');
+    const grid = document.getElementById('lib-grid');
+    document.getElementById('pick-library').addEventListener('click', async () => {
+      modal.hidden = false;
+      grid.innerHTML = '<p class="lib-loading">Loading…</p>';
+      const res = await fetch('/api/library');
+      const { images: lib } = await res.json();
+      if (!lib.length) { grid.innerHTML = '<p class="lib-loading">No images uploaded yet.</p>'; return; }
+      grid.innerHTML = '';
+      lib.forEach((img) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'lib-thumb';
+        b.innerHTML = `<img src="${img.url}" alt="" loading="lazy" />`;
+        b.addEventListener('click', () => { image = img.url; render(); modal.hidden = true; });
+        grid.appendChild(b);
+      });
+    });
+    document.getElementById('lib-close').addEventListener('click', () => (modal.hidden = true));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.hidden = true; });
+
+    // delete
+    const delBtn = document.getElementById('delete-btn');
+    if (delBtn) {
+      delBtn.addEventListener('click', async () => {
+        if (!confirm('Delete this sketch? This cannot be undone.')) return;
+        const res = await fetch(`/api/sketches/${id}`, { method: 'DELETE' });
+        if (res.ok) window.location.href = '/admin/sketches';
+        else showError('Delete failed.');
+      });
+    }
+
+    // submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.hidden = true;
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      const payload = { title: document.getElementById('title').value, image };
+      const url = id ? `/api/sketches/${id}` : '/api/sketches';
+      const res = await fetch(url, {
+        method: id ? 'PUT' : 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const out = await res.json();
+      if (out.ok) window.location.href = '/admin/sketches';
+      else { showError(out.error || 'Save failed.'); saveBtn.disabled = false; }
+    });
+
+    render();
+  })();
+</script>
+
+<style>
+  .dropzone {
+    border: 2px dashed var(--divider); border-radius: 8px; padding: 1.5rem; text-align: center;
+    background: var(--field); transition: border-color 0.15s, background 0.15s;
+  }
+  .dropzone.over { border-color: var(--accent); background: #f6ece6; }
+  .dropzone p { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .dz-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+
+  .preview {
+    position: relative; width: 160px; margin-top: 0.9rem; border-radius: 6px; overflow: hidden;
+    border: 1px solid var(--divider); background: #ECEAE0;
+  }
+  .preview img { width: 100%; display: block; }
+  .img-remove {
+    position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%;
+    border: none; background: rgba(0,0,0,0.65); color: #fff; cursor: pointer; line-height: 1; font-size: 0.9rem;
+  }
+
+  .form-actions { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.5rem; }
+
+  .modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex;
+    align-items: center; justify-content: center; z-index: 100; padding: 1rem;
+  }
+  .modal[hidden] { display: none; }
+  .modal-box {
+    background: var(--bg); border-radius: 10px; width: 100%; max-width: 720px;
+    max-height: 80vh; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .modal-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.25rem; border-bottom: 1px solid var(--divider);
+  }
+  .lib-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 0.6rem; padding: 1rem 1.25rem; overflow-y: auto;
+  }
+  .lib-loading { color: var(--muted); grid-column: 1 / -1; }
+  .lib-thumb {
+    display: block; height: 96px; width: 100%; padding: 0; margin: 0;
+    border: 1px solid var(--divider); border-radius: 6px; overflow: hidden;
+    cursor: pointer; background: #ECEAE0;
+  }
+  .lib-thumb:hover { outline: 2px solid var(--accent); }
+  .lib-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+</style>

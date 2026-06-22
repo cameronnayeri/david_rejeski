@@ -1,0 +1,73 @@
+---
+import Admin from '../../../layouts/Admin.astro';
+import { listSketches } from '../../../lib/db';
+import { env } from '../../../lib/env';
+
+export const prerender = false;
+
+const sketches = await listSketches(env.DB);
+---
+
+<Admin title="Sketches" showNav section="sketches">
+  <div class="head">
+    <h1>Sketches <span class="count">{sketches.length}</span></h1>
+    <a href="/admin/sketches/new" class="btn">+ New sketch</a>
+  </div>
+
+  {sketches.length === 0 ? (
+    <p class="empty">No sketches yet. Create your first one.</p>
+  ) : (
+    <ul class="proj-list">
+      {sketches.map((s) => (
+        <li class="proj-row">
+          <a class="thumb" href={`/admin/sketches/${s.id}`}>
+            {s.image
+              ? <img src={s.image} alt="" loading="lazy" />
+              : <span class="thumb-empty">—</span>}
+          </a>
+          <a class="proj-main" href={`/admin/sketches/${s.id}`}>
+            <span class="proj-title">{s.title}</span>
+          </a>
+          <div class="proj-actions">
+            <a href={`/admin/sketches/${s.id}`} class="admin-link">Edit</a>
+            <button class="admin-link del" data-id={s.id} data-title={s.title}>Delete</button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</Admin>
+
+<style>
+  .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .head h1 { font-size: 1.6rem; }
+  .count { font-size: 1rem; color: var(--muted); font-weight: 400; }
+  .empty { color: var(--muted); padding: 2rem 0; }
+  .proj-list { list-style: none; }
+  .proj-row {
+    display: flex; align-items: center; gap: 1rem; padding: 0.7rem 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  .thumb {
+    width: 52px; height: 52px; flex-shrink: 0; border-radius: 6px; overflow: hidden;
+    background: #ECEAE0; display: flex; align-items: center; justify-content: center;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-empty { color: var(--muted); }
+  .proj-main { flex: 1; text-decoration: none; min-width: 0; }
+  .proj-title { font-weight: 600; }
+  .proj-actions { display: flex; gap: 0.9rem; }
+  .del { color: var(--accent); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.del').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      if (!confirm(`Delete "${btn.dataset.title}"? This cannot be undone.`)) return;
+      const res = await fetch(`/api/sketches/${id}`, { method: 'DELETE' });
+      if (res.ok) btn.closest('.proj-row')?.remove();
+      else alert('Delete failed.');
+    });
+  });
+</script>

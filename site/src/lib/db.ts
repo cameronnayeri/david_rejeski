@@ -174,3 +174,53 @@ export async function countUsers(db: D1Database): Promise<number> {
   const row = await db.prepare('SELECT COUNT(*) AS n FROM users').first<{ n: number }>();
   return row?.n ?? 0;
 }
+
+// ── Sketches (title + single image) ──────────────────
+
+export interface Sketch {
+  id: number;
+  title: string;
+  image: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function listSketches(db: D1Database): Promise<Sketch[]> {
+  const { results } = await db
+    .prepare('SELECT * FROM sketches ORDER BY sort_order ASC, id ASC')
+    .all<Sketch>();
+  return results ?? [];
+}
+
+export async function getSketch(db: D1Database, id: number): Promise<Sketch | null> {
+  return (
+    (await db.prepare('SELECT * FROM sketches WHERE id = ?').bind(id).first<Sketch>()) ?? null
+  );
+}
+
+export async function createSketch(
+  db: D1Database,
+  s: { title: string; image: string },
+): Promise<number> {
+  const res = await db
+    .prepare('INSERT INTO sketches (title, image, sort_order) VALUES (?, ?, ?)')
+    .bind(s.title, s.image, Math.random())
+    .run();
+  return res.meta.last_row_id as number;
+}
+
+export async function updateSketch(
+  db: D1Database,
+  id: number,
+  s: { title: string; image: string },
+): Promise<void> {
+  await db
+    .prepare("UPDATE sketches SET title = ?, image = ?, updated_at = datetime('now') WHERE id = ?")
+    .bind(s.title, s.image, id)
+    .run();
+}
+
+export async function deleteSketch(db: D1Database, id: number): Promise<void> {
+  await db.prepare('DELETE FROM sketches WHERE id = ?').bind(id).run();
+}

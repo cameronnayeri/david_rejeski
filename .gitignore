@@ -15,3 +15,5 @@ site/.dev.vars
 site/.wrangler/
 site/migrations/seed.sql
 site/migrations/upload-images.sh
+site/migrations/seed-sketches.sql
+site/migrations/upload-sketches.sh

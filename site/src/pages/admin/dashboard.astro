@@ -8,7 +8,7 @@ export const prerender = false;
 const projects = await listProjects(env.DB);
 ---
 
-<Admin title="Dashboard" showNav>
+<Admin title="Dashboard" showNav section="projects">
   <div class="head">
     <h1>Projects <span class="count">{projects.length}</span></h1>
     <a href="/admin/projects/new" class="btn">+ New project</a>

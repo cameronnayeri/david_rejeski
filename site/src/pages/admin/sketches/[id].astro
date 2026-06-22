@@ -1,0 +1,24 @@
+---
+import Admin from '../../../layouts/Admin.astro';
+import SketchForm from '../../../components/SketchForm.astro';
+import { getSketch } from '../../../lib/db';
+import { env } from '../../../lib/env';
+
+export const prerender = false;
+
+const id = Number(Astro.params.id);
+const sketch = Number.isInteger(id) ? await getSketch(env.DB, id) : null;
+if (!sketch) return Astro.redirect('/admin/sketches');
+---
+
+<Admin title={`Edit · ${sketch.title}`} showNav section="sketches">
+  <p class="crumb"><a href="/admin/sketches">← Sketches</a></p>
+  <h1>Edit sketch</h1>
+  <SketchForm sketch={sketch} />
+</Admin>
+
+<style>
+  .crumb { font-size: 0.8rem; margin-bottom: 1rem; }
+  .crumb a { color: var(--muted); text-decoration: none; }
+  h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+</style>

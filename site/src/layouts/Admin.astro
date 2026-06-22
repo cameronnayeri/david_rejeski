@@ -2,8 +2,9 @@
 export interface Props {
   title: string;
   showNav?: boolean;
+  section?: 'projects' | 'sketches';
 }
-const { title, showNav = false } = Astro.props;
+const { title, showNav = false, section } = Astro.props;
 const user = Astro.locals.user;
 ---
 
@@ -27,6 +28,12 @@ const user = Astro.locals.user;
           </form>
         </div>
       </header>
+    )}
+    {showNav && section && (
+      <nav class="admin-tabs">
+        <a href="/admin/dashboard" class:list={['admin-tab', { active: section === 'projects' }]}>Projects</a>
+        <a href="/admin/sketches" class:list={['admin-tab', { active: section === 'sketches' }]}>Sketches</a>
+      </nav>
     )}
     <main class="admin-main">
       <slot />
@@ -63,6 +70,17 @@ const user = Astro.locals.user;
   }
   .admin-link:hover { color: var(--accent); }
   .logout-form { display: inline; }
+
+  .admin-tabs {
+    display: flex; gap: 1.5rem; padding: 0 1.5rem; border-bottom: 1px solid var(--divider);
+    background: var(--field);
+  }
+  .admin-tab {
+    padding: 0.75rem 0; font-size: 0.9rem; font-weight: 600; text-decoration: none;
+    color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .admin-tab:hover { color: var(--ink); }
+  .admin-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
   .admin-main { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
   /* ── Forms ──────────────────────────────────── */

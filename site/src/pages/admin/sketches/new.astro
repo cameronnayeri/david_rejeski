@@ -1,0 +1,18 @@
+---
+import Admin from '../../../layouts/Admin.astro';
+import SketchForm from '../../../components/SketchForm.astro';
+
+export const prerender = false;
+---
+
+<Admin title="New sketch" showNav section="sketches">
+  <p class="crumb"><a href="/admin/sketches">← Sketches</a></p>
+  <h1>New sketch</h1>
+  <SketchForm />
+</Admin>
+
+<style>
+  .crumb { font-size: 0.8rem; margin-bottom: 1rem; }
+  .crumb a { color: var(--muted); text-decoration: none; }
+  h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+</style>

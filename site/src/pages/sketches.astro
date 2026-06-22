@@ -1,29 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Lightbox from '../components/Lightbox.astro';
-export const prerender = true;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { listSketches } from '../lib/db';
+import { env } from '../lib/env';
 
-const sketches = [
-  { file: 'Bluesboys.jpeg',                   title: 'Bluesboys' },
-  { file: 'CarlosWallPainting2.jpeg',         title: 'Carlos Wall Painting' },
-  { file: 'Castle.jpeg',                      title: 'Castle' },
-  { file: 'Currywurststandfinal copy.jpeg',   title: 'Currywurst Stand' },
-  { file: 'DuBisteinBerliner2.jpeg',          title: 'Du Bist ein Berliner' },
-  { file: 'Fuckyourgas.jpeg',                 title: 'Fuck Your Gas' },
-  { file: 'Klemke.jpg',                       title: 'Klemke' },
-  { file: 'Litzensee2.jpeg',                  title: 'Litzensee' },
-  { file: 'PotsdamRussianVillage2.jpg',       title: 'Potsdam Russian Village' },
-  { file: 'Putin.jpeg',                       title: 'Putin' },
-  { file: 'Tefelsberg2.jpeg',                 title: 'Tefelsberg' },
-  { file: 'cargobikes.jpg',                   title: 'Cargo Bikes' },
-  { file: 'castlebridge.jpeg',               title: 'Castle Bridge' },
-  { file: 'killingart2.jpeg',                title: 'Killing Art' },
-  { file: 'moreespresso.jpeg',               title: 'More Espresso' },
-  { file: 'parking.jpeg',                    title: 'Parking' },
-  { file: 'platzinsnow2.jpg',                title: 'Platz in Snow' },
-  { file: 'square1.jpeg',                    title: 'Square' },
-];
+export const prerender = false;
+
+const sketches = await listSketches(env.DB);
 ---
 
 <Base title="Sketches" activeNav="sketches">
@@ -41,7 +24,7 @@ const sketches = [
         <article class="sketch-card">
           <div class="card-image">
             <img
-              src={`${base}/2d-images/${s.file}`}
+              src={s.image}
               alt={s.title}
               loading="lazy"
               data-lightbox
