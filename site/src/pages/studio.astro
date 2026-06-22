@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import { getSettings } from '../lib/db';
 import { STUDIO_DEFAULTS } from '../lib/studio';
+import { mdInline } from '../lib/markdown';
 import { env } from '../lib/env';
 
 export const prerender = false;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const saved = await getSettings(env.DB);
-const t = (key: string) => saved[key] ?? STUDIO_DEFAULTS[key] ?? '';
+const t = (key: string) => mdInline(saved[key] ?? STUDIO_DEFAULTS[key] ?? '');
 ---
 
 <Base title="Studio" activeNav="studio">
