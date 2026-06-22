@@ -8,7 +8,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "david-rejeski"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "f01d23d0-6260-40cb-bf29-464a4378ac50"
 
 # Object storage for uploaded images.
 # Create with: npx wrangler r2 bucket create david-rejeski-images
