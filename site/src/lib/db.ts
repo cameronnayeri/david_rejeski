@@ -23,7 +23,6 @@ export interface Project {
   description: string | null;
   caption: string | null;
   images: string[];
-  featured: boolean;
   status: Status;
   sort_order: number;
   created_at: string;
@@ -41,7 +40,6 @@ export interface ProjectInput {
   description: string | null;
   caption: string | null;
   images: string[];
-  featured: boolean;
   status: string;
   sort_order?: number;
 }
@@ -57,7 +55,6 @@ interface ProjectRow {
   description: string | null;
   caption: string | null;
   images: string;
-  featured: number;
   status: string;
   sort_order: number;
   created_at: string;
@@ -69,7 +66,6 @@ function rowToProject(row: ProjectRow): Project {
     ...row,
     category: row.category as Category,
     status: row.status as Status,
-    featured: !!row.featured,
     materials: safeJsonArray(row.materials),
     images: safeJsonArray(row.images),
   };
@@ -125,8 +121,8 @@ export async function createProject(db: D1Database, p: ProjectInput): Promise<nu
   const res = await db
     .prepare(
       `INSERT INTO projects
-        (title, slug, number, year, category, materials, description, caption, images, featured, status, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (title, slug, number, year, category, materials, description, caption, images, status, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       p.title,
@@ -138,7 +134,6 @@ export async function createProject(db: D1Database, p: ProjectInput): Promise<nu
       p.description,
       p.caption,
       JSON.stringify(p.images),
-      p.featured ? 1 : 0,
       p.status,
       sortOrder,
     )
@@ -151,7 +146,7 @@ export async function updateProject(db: D1Database, id: number, p: ProjectInput)
     .prepare(
       `UPDATE projects SET
          title = ?, slug = ?, number = ?, year = ?, category = ?, materials = ?,
-         description = ?, caption = ?, images = ?, featured = ?, status = ?,
+         description = ?, caption = ?, images = ?, status = ?,
          updated_at = datetime('now')
        WHERE id = ?`,
     )
@@ -165,7 +160,6 @@ export async function updateProject(db: D1Database, id: number, p: ProjectInput)
       p.description,
       p.caption,
       JSON.stringify(p.images),
-      p.featured ? 1 : 0,
       p.status,
       id,
     )

@@ -30,7 +30,6 @@ const projects = await listProjects(env.DB);
             <span class="proj-meta">{p.category}{p.year ? ` · ${p.year}` : ''}</span>
           </a>
           <span class={`badge badge-${p.status}`}>{p.status}</span>
-          {p.featured && <span class="badge badge-featured">featured</span>}
           <div class="proj-actions">
             <a href={`/admin/projects/${p.id}`} class="admin-link">Edit</a>
             <button class="admin-link del" data-id={p.id} data-title={p.title}>Delete</button>
@@ -67,7 +66,6 @@ const projects = await listProjects(env.DB);
   .badge-published { background: #d7f0dd; color: #0f5132; }
   .badge-draft { background: #fdf0d5; color: #8a6d3b; }
   .badge-archived { background: #e6e2d6; color: #6b6452; }
-  .badge-featured { background: var(--accent); color: #fff; }
   .proj-actions { display: flex; gap: 0.9rem; }
   .del { color: var(--accent); }
 </style>

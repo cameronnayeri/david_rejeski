@@ -77,12 +77,6 @@ const data = project ?? null;
         ))}
       </select>
     </div>
-    <div class="field check-field" style="flex:0 0 auto">
-      <label class="check">
-        <input type="checkbox" id="featured" name="featured" checked={data?.featured} />
-        Feature on home page
-      </label>
-    </div>
   </div>
 
   <div class="form-actions">
@@ -231,7 +225,6 @@ const data = project ?? null;
         description: document.getElementById('description').value,
         caption: document.getElementById('caption').value,
         status: document.getElementById('status').value,
-        featured: document.getElementById('featured').checked,
         images,
       };
       const url = id ? `/api/projects/${id}` : '/api/projects';

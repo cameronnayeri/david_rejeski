@@ -44,7 +44,6 @@ export function parseInput(
       description: strOrNull(body.description),
       caption: strOrNull(body.caption),
       images: Array.isArray(body.images) ? body.images.map((i: unknown) => String(i)) : [],
-      featured: !!body.featured,
       status,
     },
   };
