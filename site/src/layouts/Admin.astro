@@ -1,0 +1,95 @@
+---
+export interface Props {
+  title: string;
+  showNav?: boolean;
+}
+const { title, showNav = false } = Astro.props;
+const user = Astro.locals.user;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>{title} — Admin</title>
+  </head>
+  <body>
+    {showNav && (
+      <header class="admin-bar">
+        <a href="/admin/dashboard" class="admin-brand">David Rejeski · CMS</a>
+        <div class="admin-bar-right">
+          <a href="/" class="admin-link" target="_blank" rel="noopener">View site ↗</a>
+          {user && <span class="admin-user">{user.email}</span>}
+          <form method="POST" action="/api/auth/logout" class="logout-form">
+            <button type="submit" class="admin-link">Log out</button>
+          </form>
+        </div>
+      </header>
+    )}
+    <main class="admin-main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #F2EFE3;
+    --ink: #1A1A1A;
+    --accent: #C5532A;
+    --muted: #7A7060;
+    --divider: #D9D4C5;
+    --field: #FBFAF5;
+    --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font); line-height: 1.5; }
+  a { color: inherit; }
+
+  .admin-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--divider); background: var(--field);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .admin-brand { font-weight: 700; text-decoration: none; }
+  .admin-bar-right { display: flex; align-items: center; gap: 1.25rem; }
+  .admin-user { font-size: 0.8rem; color: var(--muted); }
+  .admin-link {
+    font: inherit; font-size: 0.85rem; background: none; border: none; cursor: pointer;
+    color: var(--ink); text-decoration: none; padding: 0;
+  }
+  .admin-link:hover { color: var(--accent); }
+  .logout-form { display: inline; }
+  .admin-main { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+  /* ── Forms ──────────────────────────────────── */
+  .field { margin-bottom: 1.25rem; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .field .hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+  input[type="text"], input[type="number"], input[type="email"],
+  input[type="password"], select, textarea {
+    width: 100%; font: inherit; font-size: 0.95rem; padding: 0.6rem 0.7rem;
+    background: var(--field); border: 1px solid var(--divider); border-radius: 6px; color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 5rem; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .row > .field { flex: 1; min-width: 140px; }
+
+  .btn {
+    font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    padding: 0.6rem 1.1rem; border-radius: 6px; border: 1px solid var(--ink);
+    background: var(--ink); color: var(--bg); text-decoration: none; display: inline-block;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-secondary { background: transparent; color: var(--ink); }
+  .btn-danger { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+
+  .msg { padding: 0.7rem 0.9rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; }
+  .msg-error { background: #f8d7d7; color: #842029; }
+  .msg-ok { background: #d7f0dd; color: #0f5132; }
+</style>

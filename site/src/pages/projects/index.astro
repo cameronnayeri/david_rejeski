@@ -1,21 +1,17 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { listPublished, CATEGORIES } from '../../lib/db';
+import { env } from '../../lib/env';
 
-const allPieces = await getCollection('pieces', ({ data }) => data.status === 'published');
+export const prerender = false;
 
-const pieces = allPieces.sort((a, b) => {
-  const orderA = a.data.order ?? a.data.number;
-  const orderB = b.data.order ?? b.data.number;
-  return orderA - orderB;
-});
+const pieces = await listPublished(env.DB);
 
-const allCategories = ['Chairs & Stools', 'Tables', 'Lamps', 'Sculpture', 'Whimsies', 'Commission'] as const;
-const categoryCounts = allCategories
-  .map((cat) => ({ name: cat, count: pieces.filter((p) => p.data.category === cat).length }))
+const categoryCounts = CATEGORIES
+  .map((cat) => ({ name: cat, count: pieces.filter((p) => p.category === cat).length }))
   .filter((c) => c.count > 0);
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = '';
 ---
 
 <Base title="Projects" activeNav="projects">
@@ -49,23 +45,23 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     <div class="piece-grid">
       {pieces.map((piece) => (
-        <article class="piece-card" data-category={piece.data.category}>
-          <a href={`${base}/projects/${piece.id}`}>
+        <article class="piece-card" data-category={piece.category}>
+          <a href={`${base}/projects/${piece.slug}`}>
             <div class="card-image">
-              {piece.data.images[0]
-                ? <img src={`${base}${piece.data.images[0]}`} alt={piece.data.title} loading="lazy" />
+              {piece.images[0]
+                ? <img src={piece.images[0]} alt={piece.title} loading="lazy" />
                 : <div class="card-placeholder" />
               }
             </div>
             <div class="card-info">
               <div class="card-title-row">
-                <span class="card-title">{piece.data.title}</span>
-                <span class="card-year">{piece.data.year}</span>
+                <span class="card-title">{piece.title}</span>
+                <span class="card-year">{piece.year}</span>
               </div>
               <p class="card-materials">
-                {piece.data.materials.map((m) => m.toUpperCase()).join(' · ')}
+                {piece.materials.map((m) => m.toUpperCase()).join(' · ')}
               </p>
-              <p class="card-category">{piece.data.category.toUpperCase()}</p>
+              <p class="card-category">{piece.category.toUpperCase()}</p>
             </div>
           </a>
         </article>

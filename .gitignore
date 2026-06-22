@@ -10,3 +10,8 @@ site/.astro/
 populate.py
 .DS_Store
 *.psd
+.dev.vars
+site/.dev.vars
+site/.wrangler/
+site/migrations/seed.sql
+site/migrations/upload-images.sh

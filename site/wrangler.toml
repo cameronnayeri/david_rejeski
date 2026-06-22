@@ -1,0 +1,17 @@
+name = "david-rejeski"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# SQLite database for project content.
+# Create with: npx wrangler d1 create david-rejeski
+# then paste the returned database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "david-rejeski"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+# Object storage for uploaded images.
+# Create with: npx wrangler r2 bucket create david-rejeski-images
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "david-rejeski-images"

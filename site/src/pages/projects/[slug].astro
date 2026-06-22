@@ -1,19 +1,30 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PieceDetail from '../../components/PieceDetail.astro';
+import { getProjectBySlug } from '../../lib/db';
+import { env } from '../../lib/env';
 
-export async function getStaticPaths() {
-  const allPieces = await getCollection('pieces', ({ data }) => data.status === 'published');
-  return allPieces.map((piece) => ({
-    params: { slug: piece.id },
-    props: { piece },
-  }));
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const project = await getProjectBySlug(env.DB, slug);
+
+if (!project || project.status !== 'published') {
+  return Astro.redirect('/projects');
 }
 
-const { piece } = Astro.props;
+const data = {
+  title: project.title,
+  number: project.number ?? 0,
+  year: project.year ?? 0,
+  category: project.category,
+  materials: project.materials,
+  description: project.description ?? undefined,
+  caption: project.caption ?? undefined,
+  images: project.images,
+};
 ---
 
-<Base title={piece.data.title} activeNav="projects">
-  <PieceDetail data={piece.data} imageLayout="masonry" />
+<Base title={project.title} activeNav="projects">
+  <PieceDetail data={data} imageLayout="masonry" />
 </Base>

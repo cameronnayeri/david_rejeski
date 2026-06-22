@@ -1,0 +1,49 @@
+---
+import Admin from '../../layouts/Admin.astro';
+import { countUsers } from '../../lib/db';
+import { env } from '../../lib/env';
+
+export const prerender = false;
+
+// Setup is only for the very first account.
+if ((await countUsers(env.DB)) > 0) return Astro.redirect('/admin');
+---
+
+<Admin title="Set up">
+  <div class="auth-card">
+    <h1>Create admin account</h1>
+    <p class="lede">This is a one-time setup for the first administrator.</p>
+    <div id="msg" class="msg msg-error" hidden></div>
+    <form id="setup-form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password" />
+        <p class="hint">At least 8 characters.</p>
+      </div>
+      <button type="submit" class="btn" style="width:100%">Create account</button>
+    </form>
+  </div>
+</Admin>
+
+<style>
+  .auth-card { max-width: 360px; margin: 4rem auto 0; }
+  .auth-card h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .lede { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+</style>
+
+<script>
+  const form = document.getElementById('setup-form') as HTMLFormElement;
+  const msg = document.getElementById('msg')!;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.hidden = true;
+    const res = await fetch('/api/auth/setup', { method: 'POST', body: new FormData(form) });
+    const data = await res.json();
+    if (data.ok) { window.location.href = '/admin/dashboard'; }
+    else { msg.textContent = data.error || 'Setup failed.'; msg.hidden = false; }
+  });
+</script>
