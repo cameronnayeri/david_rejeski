@@ -2,7 +2,7 @@
 title: "Ex-Smoker Bowls"
 number: 21
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Claro Walnut", "8\" diameter"]
 images:
   - "/images/ex-smoker-bowls-1/01_img_6472.jpg"

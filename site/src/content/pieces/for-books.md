@@ -2,7 +2,7 @@
 title: "For Books"
 number: 24
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Quilted Maple", "Cherry", "Mangrove", "78\"H × 38\"W × 9\"D"]
 images:
   - "/images/for-books/01_bookcase1.jpg"

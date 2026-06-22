@@ -28,7 +28,7 @@ export function parseInput(
   const title = String(body.title ?? '').trim();
   if (!title) return { error: 'Title is required.' };
 
-  const category = CATEGORIES.includes(body.category) ? body.category : 'Whimsies';
+  const category = CATEGORIES.includes(body.category) ? body.category : 'Explorations';
   const status = STATUSES.includes(body.status) ? body.status : 'published';
 
   return {

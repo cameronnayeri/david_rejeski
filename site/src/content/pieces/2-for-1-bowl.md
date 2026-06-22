@@ -2,7 +2,7 @@
 title: "2 for 1 Bowl"
 number: 1
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Bloodwood", "Black Walnut Inlays", "26\"L × 8\"W × 5\"H"]
 images:
   - "/images/2-for-1-bowl/01_2for1_bowl_02.jpeg"

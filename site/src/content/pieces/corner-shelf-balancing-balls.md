@@ -2,7 +2,7 @@
 title: "Shelf Balancing Balls"
 number: 15
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Big Leaf Maple", "Claro Walnut Burl", "Cherry", "Ash", "Walnut", "44\"H × 12\"W × 13\"D"]
 images:
   - "/images/corner-shelf-balancing-balls/02_fullview.jpg"

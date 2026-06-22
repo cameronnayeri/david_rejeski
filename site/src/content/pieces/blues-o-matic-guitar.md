@@ -2,7 +2,7 @@
 title: "Blues-O-Matic Guitar"
 number: 9
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Quilted Maple", "Ebony", "Zebrawood"]
 images:
   - "/images/blues-o-matic-guitar/01_wholeguitar.jpeg"

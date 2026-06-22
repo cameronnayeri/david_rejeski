@@ -2,7 +2,7 @@
 title: "Bookcase"
 number: 11
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Black Walnut", "Cherry", "Red Oak", "44\"L × 10\"W × 78\"H"]
 images:
   - "/images/bookcase/01_img_6455.jpg"

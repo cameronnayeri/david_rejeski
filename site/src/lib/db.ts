@@ -3,7 +3,7 @@ export const CATEGORIES = [
   'Tables',
   'Lamps',
   'Sculpture',
-  'Whimsies',
+  'Explorations',
   'Commission',
 ] as const;
 

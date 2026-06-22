@@ -2,7 +2,7 @@
 title: "3 in 1 Bowl (w/ Crumb Drain)"
 number: 2
 year: 2024
-category: "Whimsies"
+category: "Explorations"
 materials: ["Bosse", "Bubinga", "Rosewood", "34\"L × 9\"W × 7\"H"]
 images:
   - "/images/3-for-1-bowl-w-crumb-clean-out/01_img_4919_copy.jpg"

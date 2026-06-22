@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS projects (
   slug         TEXT    NOT NULL UNIQUE,
   number       INTEGER,
   year         INTEGER,
-  category     TEXT    NOT NULL DEFAULT 'Whimsies',
+  category     TEXT    NOT NULL DEFAULT 'Explorations',
   materials    TEXT    NOT NULL DEFAULT '[]',  -- JSON array
   description  TEXT,
   caption      TEXT,

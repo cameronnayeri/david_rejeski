@@ -12,7 +12,7 @@ const pieces = defineCollection({
       'Tables',
       'Lamps',
       'Sculpture',
-      'Whimsies',
+      'Explorations',
       'Commission',
     ]),
     materials: z.array(z.string()),

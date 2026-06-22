@@ -2,7 +2,7 @@
 title: testing
 number: 2
 year: 2024
-category: Whimsies
+category: Explorations
 materials: []
 description: test
 images:

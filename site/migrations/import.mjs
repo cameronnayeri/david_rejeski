@@ -100,7 +100,7 @@ for (const file of files) {
         sqlStr(slug),
         fm.number ?? 'NULL',
         fm.year ?? 'NULL',
-        sqlStr(fm.category || 'Whimsies'),
+        sqlStr(fm.category || 'Explorations'),
         sqlStr(JSON.stringify(materials)),
         sqlStr(fm.description),
         sqlStr(fm.caption),
