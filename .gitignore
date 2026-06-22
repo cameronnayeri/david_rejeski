@@ -8,3 +8,5 @@ site/.astro/
 *.pdf
 !site/public/writing/*.pdf
 populate.py
+.DS_Store
+*.psd
