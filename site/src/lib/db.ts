@@ -224,3 +224,23 @@ export async function updateSketch(
 export async function deleteSketch(db: D1Database, id: number): Promise<void> {
   await db.prepare('DELETE FROM sketches WHERE id = ?').bind(id).run();
 }
+
+// ── Settings (key/value editable text) ───────────────
+
+export async function getSettings(db: D1Database): Promise<Record<string, string>> {
+  const { results } = await db
+    .prepare('SELECT key, value FROM settings')
+    .all<{ key: string; value: string }>();
+  const out: Record<string, string> = {};
+  for (const row of results ?? []) out[row.key] = row.value;
+  return out;
+}
+
+export async function setSettings(db: D1Database, values: Record<string, string>): Promise<void> {
+  const stmt = db.prepare(
+    `INSERT INTO settings (key, value) VALUES (?, ?)
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value`,
+  );
+  const batch = Object.entries(values).map(([k, v]) => stmt.bind(k, v));
+  if (batch.length) await db.batch(batch);
+}

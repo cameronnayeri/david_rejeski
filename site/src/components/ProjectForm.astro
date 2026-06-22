@@ -83,7 +83,9 @@ const data = project ?? null;
     <button type="submit" class="btn" id="save-btn">{isEdit ? 'Save changes' : 'Create project'}</button>
     <a href="/admin/dashboard" class="btn btn-secondary">Cancel</a>
     {isEdit && (
-      <button type="button" class="btn btn-danger" id="delete-btn" style="margin-left:auto">Delete</button>
+      <button type="button" class="btn-trash" id="delete-btn" style="margin-left:auto" aria-label="Delete project" title="Delete">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+      </button>
     )}
   </div>
 </form>
@@ -253,31 +255,29 @@ const data = project ?? null;
   .dz-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 
   .image-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; }
-  .image-item {
+  /* Thumbnails are created in JS, so they don't get Astro's scope attribute —
+     these rules are :global, anchored to the #image-list container. */
+  #image-list :global(.image-item) {
     position: relative; width: 72px; height: 72px; border-radius: 6px; overflow: hidden;
     background: #ECEAE0; cursor: grab; border: 1px solid var(--divider);
   }
-  .image-item:active { cursor: grabbing; }
-  .image-item.dragging { opacity: 0.4; }
-  .image-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .img-handle {
+  #image-list :global(.image-item:active) { cursor: grabbing; }
+  #image-list :global(.image-item.dragging) { opacity: 0.4; }
+  #image-list :global(.image-item img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #image-list :global(.img-handle) {
     position: absolute; top: 0; left: 0; right: 0; height: 16px; display: flex;
     align-items: center; justify-content: center; font-size: 0.7rem; line-height: 1;
     color: #fff; background: rgba(0,0,0,0.45); letter-spacing: 1px; pointer-events: none;
   }
-  .img-remove {
+  #image-list :global(.img-remove) {
     position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%;
     border: none; background: rgba(0,0,0,0.65); color: #fff; cursor: pointer; line-height: 1;
     font-size: 0.8rem; z-index: 2;
   }
-  .image-item:first-child::after {
+  #image-list :global(.image-item:first-child::after) {
     content: 'cover'; position: absolute; bottom: 0; left: 0; right: 0; text-align: center;
     font-size: 0.55rem; background: var(--accent); color: #fff; padding: 1px;
   }
-
-  .check { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.85rem; }
-  .check input { width: auto; }
-  .check-field { display: flex; align-items: flex-end; }
 
   .form-actions { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.5rem; }
 
@@ -296,14 +296,15 @@ const data = project ?? null;
   }
   .lib-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-    gap: 0.6rem; padding: 1rem 1.25rem; overflow-y: auto;
+    grid-auto-rows: 96px; gap: 0.6rem; padding: 1rem 1.25rem; overflow-y: auto;
   }
-  .lib-loading { color: var(--muted); grid-column: 1 / -1; }
-  .lib-thumb {
+  /* Library thumbs are also JS-created — :global, anchored to #lib-grid. */
+  #lib-grid :global(.lib-loading) { color: var(--muted); grid-column: 1 / -1; }
+  #lib-grid :global(.lib-thumb) {
     display: block; height: 96px; width: 100%; padding: 0; margin: 0;
     border: 1px solid var(--divider); border-radius: 6px; overflow: hidden;
     cursor: pointer; background: #ECEAE0;
   }
-  .lib-thumb:hover { outline: 2px solid var(--accent); }
-  .lib-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #lib-grid :global(.lib-thumb:hover) { outline: 2px solid var(--accent); }
+  #lib-grid :global(.lib-thumb img) { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>

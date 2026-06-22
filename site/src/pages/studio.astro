@@ -1,7 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
-export const prerender = true;
+import { getSettings } from '../lib/db';
+import { STUDIO_DEFAULTS } from '../lib/studio';
+import { env } from '../lib/env';
+
+export const prerender = false;
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const saved = await getSettings(env.DB);
+const t = (key: string) => saved[key] ?? STUDIO_DEFAULTS[key] ?? '';
 ---
 
 <Base title="Studio" activeNav="studio">
@@ -13,11 +20,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
       <img class="portrait" src={`${base}/images/studio/portrait.png`} alt="David Rejeski" />
 
-      <p class="bio-text">I am a designer who builds things. It sounds straightforward and it really is. I start with a conversation — with myself or with a client — and progress to sketches and renderings before ever touching a material. Move neurons, then the pencil, then the saw. I believe that the boundaries between craft and art are fluid so that furniture can be more than functional and decorative, it can make you think and laugh. I try to take risks with every piece I design and make.</p>
+      <p class="bio-text" set:html={t('studio_bio_1')} />
 
-      <p class="bio-text">Everyone has their own set of motivations. Here are some of mine. I spent two years in a woodworking shop watching and learning from one of the great woodworkers of the 20th century: <a href="https://en.wikipedia.org/wiki/Tage_Frid" target="_blank" rel="noopener">Tage Frid</a>. Wood is a great medium, but it is not everything, so I recently learned how to weld from a friend and sculptor <a href="https://www.walterboelke.com/index.html" target="_blank" rel="noopener">Walter Boeke</a>. My father taught me 2- and 3-point perspective when I was eight years old but I really learned to draw from <a href="https://www.bryonfitzpatrick.com/" target="_blank" rel="noopener">Bryon Fitzpatrick</a>, a.k.a., the drawing machine. <a href="https://en.wikipedia.org/wiki/Marc_Harrison" target="_blank" rel="noopener">Marc Harrison</a> helped me think of design in a much broader sense (Universal Design). Most have left this earth, but they left their mark.</p>
+      <p class="bio-text" set:html={t('studio_bio_2')} />
 
-      <p class="bio-text">I have the advantage of living in two countries — the US and Germany — each with its own set of influences, ranging from Shaker furniture and early American arts and crafts to the German Bauhaus and the <a href="https://www.deutscher-werkbund.de/wir-im-dwb/basic-information-in-english/" target="_blank" rel="noopener">Werkbund</a>.</p>
+      <p class="bio-text" set:html={t('studio_bio_3')} />
 
       <hr class="sidebar-rule" />
 
@@ -54,7 +61,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
       <hr class="divider" />
 
-      <p class="intro">My workshop is in a 19th century gambrel-roofed barn in Western Massachusetts that I share with bats, upstairs, and a dog, downstairs.</p>
+      <p class="intro" set:html={t('studio_intro')} />
 
       <div class="narrative">
 
@@ -76,7 +83,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <div class="pot-wrap">
             <img src={`${base}/images/studio/pot.jpg`} alt="Pot by Anne Ferril" />
           </div>
-          <p class="potter-text">I give wood shavings to a great potter, <a href="https://www.berkshirepotterscollective.org/aferril" target="_blank" rel="noopener">Anne Ferril</a>, who uses them to fire her pots. Here is one fired with black walnut, cherry, and oak shavings — a circular economy of artists.</p>
+          <p class="potter-text" set:html={t('studio_potter')} />
         </div>
 
       </div>

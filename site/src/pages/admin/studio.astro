@@ -1,0 +1,74 @@
+---
+import Admin from '../../layouts/Admin.astro';
+import { getSettings } from '../../lib/db';
+import { STUDIO_FIELDS, STUDIO_DEFAULTS } from '../../lib/studio';
+import { env } from '../../lib/env';
+
+export const prerender = false;
+
+const saved = await getSettings(env.DB);
+const fields = STUDIO_FIELDS.map((f) => ({
+  ...f,
+  value: saved[f.key] ?? STUDIO_DEFAULTS[f.key] ?? '',
+}));
+---
+
+<Admin title="Studio text" showNav section="studio">
+  <div class="head">
+    <h1>Studio page text</h1>
+    <a href="/studio" target="_blank" rel="noopener" class="admin-link">View page ↗</a>
+  </div>
+  <p class="lede">Edit the wording on the Studio / About page. Changes go live immediately.</p>
+
+  <div id="msg" class="msg" hidden></div>
+
+  <form id="studio-form">
+    {fields.map((f) => (
+      <div class="field">
+        <label for={f.key}>{f.label}</label>
+        <textarea id={f.key} name={f.key} rows="5">{f.value}</textarea>
+        {f.hint && <p class="hint" set:html={f.hint} />}
+      </div>
+    ))}
+    <div class="form-actions">
+      <button type="submit" class="btn" id="save-btn">Save changes</button>
+    </div>
+  </form>
+</Admin>
+
+<style>
+  .head { display: flex; align-items: baseline; justify-content: space-between; }
+  .head h1 { font-size: 1.6rem; }
+  .lede { color: var(--muted); font-size: 0.9rem; margin: 0.25rem 0 1.5rem; }
+  textarea { min-height: 6rem; line-height: 1.6; }
+  .form-actions { margin-top: 1.5rem; }
+</style>
+
+<script>
+  const form = document.getElementById('studio-form') as HTMLFormElement;
+  const msg = document.getElementById('msg')!;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.hidden = true;
+    const btn = document.getElementById('save-btn') as HTMLButtonElement;
+    btn.disabled = true;
+    const payload: Record<string, string> = {};
+    new FormData(form).forEach((v, k) => (payload[k] = String(v)));
+    const res = await fetch('/api/studio', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const out = await res.json();
+    if (out.ok) {
+      msg.className = 'msg msg-ok';
+      msg.textContent = 'Saved. Changes are live.';
+      msg.hidden = false;
+    } else {
+      msg.className = 'msg msg-error';
+      msg.textContent = out.error || 'Save failed.';
+      msg.hidden = false;
+    }
+    btn.disabled = false;
+  });
+</script>

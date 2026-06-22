@@ -2,7 +2,7 @@
 export interface Props {
   title: string;
   showNav?: boolean;
-  section?: 'projects' | 'sketches';
+  section?: 'projects' | 'sketches' | 'studio';
 }
 const { title, showNav = false, section } = Astro.props;
 const user = Astro.locals.user;
@@ -33,6 +33,7 @@ const user = Astro.locals.user;
       <nav class="admin-tabs">
         <a href="/admin/dashboard" class:list={['admin-tab', { active: section === 'projects' }]}>Projects</a>
         <a href="/admin/sketches" class:list={['admin-tab', { active: section === 'sketches' }]}>Sketches</a>
+        <a href="/admin/studio" class:list={['admin-tab', { active: section === 'studio' }]}>Studio</a>
       </nav>
     )}
     <main class="admin-main">
@@ -106,6 +107,14 @@ const user = Astro.locals.user;
   .btn-secondary { background: transparent; color: var(--ink); }
   .btn-danger { background: var(--accent); border-color: var(--accent); color: #fff; }
   .btn:disabled { opacity: 0.5; cursor: default; }
+
+  .btn-trash {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: none; border: none; cursor: pointer; color: var(--accent);
+    padding: 0.35rem; border-radius: 6px; line-height: 0;
+  }
+  .btn-trash:hover { background: rgba(197, 83, 42, 0.12); }
+  .btn-trash svg { display: block; }
 
   .msg { padding: 0.7rem 0.9rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; }
   .msg-error { background: #f8d7d7; color: #842029; }
