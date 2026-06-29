@@ -2,16 +2,25 @@ name = "david-rejeski"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Project lives in David's Cloudflare account.
+account_id = "f72af360e775b8fb10751b85013ad8b4"
+
+# Keep the *.workers.dev URL available alongside the custom domains.
+workers_dev = true
+
+# Production custom domains (apex + www) on the davidrejeski.com zone.
+routes = [
+  { pattern = "davidrejeski.com", custom_domain = true },
+  { pattern = "www.davidrejeski.com", custom_domain = true },
+]
+
 # SQLite database for project content.
-# Create with: npx wrangler d1 create david-rejeski
-# then paste the returned database_id below.
 [[d1_databases]]
 binding = "DB"
 database_name = "david-rejeski"
-database_id = "f01d23d0-6260-40cb-bf29-464a4378ac50"
+database_id = "a30ae6d3-2b2d-4ef3-a407-c2c97902a108"
 
 # Object storage for uploaded images.
-# Create with: npx wrangler r2 bucket create david-rejeski-images
 [[r2_buckets]]
 binding = "MEDIA"
 bucket_name = "david-rejeski-images"
@@ -19,4 +28,4 @@ bucket_name = "david-rejeski-images"
 # KV namespace backing Astro's session store (auto-required by the adapter).
 [[kv_namespaces]]
 binding = "SESSION"
-id = "3245b5e4bc6b49699c3a0d9a532a77a2"
+id = "f2cb16ac671445f1afbf66a676780dd0"
