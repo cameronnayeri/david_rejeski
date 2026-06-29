@@ -167,8 +167,9 @@ const pairs = [
   .composite-sketch {
     position: absolute;
     top: 50%;
-    left: 5%;
-    transform: translateY(-50%);
+    /* centered on the middle of the background's first third (1/6 ≈ 16.67%) */
+    left: 16.67%;
+    transform: translate(-50%, -50%);
     width: 36%;
     height: auto;
     object-fit: contain;
