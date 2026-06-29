@@ -56,7 +56,6 @@ const base = '';
             <div class="card-info">
               <div class="card-title-row">
                 <span class="card-title">{piece.title}</span>
-                <span class="card-year">{piece.year}</span>
               </div>
               <p class="card-materials">
                 {piece.materials.map((m) => m.toUpperCase()).join(' · ')}
@@ -253,13 +252,6 @@ const base = '';
     font-size: 0.9375rem;
     font-weight: 500;
     line-height: 1.3;
-  }
-
-  .card-year {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    color: var(--muted);
-    flex-shrink: 0;
   }
 
   .card-materials {
