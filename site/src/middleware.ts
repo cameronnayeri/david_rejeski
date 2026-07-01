@@ -19,6 +19,13 @@ function isProtected(pathname: string): boolean {
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Canonical host: redirect www.* → bare domain (301), preserving path/query.
+  if (context.url.hostname.startsWith('www.')) {
+    const target = new URL(context.url);
+    target.hostname = context.url.hostname.slice(4);
+    return context.redirect(target.toString(), 301);
+  }
+
   const { pathname } = context.url;
   const secret = env.SESSION_SECRET ?? '';
   const token = context.cookies.get(COOKIE_NAME)?.value;

@@ -6,6 +6,8 @@ const { active } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
+<a href={`${base}/`} class="site-wordmark">David Rejeski</a>
+
 <nav class="site-nav" id="siteNav">
   <a href={`${base}/`} class="nav-brand">David Rejeski</a>
 
@@ -33,11 +35,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </nav>
 
 <style>
+  .site-wordmark {
+    display: block;
+    padding: 1.5rem 3rem 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-wordmark:hover { opacity: 0.6; }
+
   .site-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.75rem 3rem;
+    padding: 0.9rem 3rem 1.35rem;
   }
 
   .nav-brand { display: none; }
@@ -77,6 +93,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   /* ── Mobile ─────────────────────────────────────── */
 
   @media (max-width: 700px) {
+    .site-wordmark { display: none; }
+
     .site-nav {
       padding: 1.25rem 1.5rem;
       flex-wrap: wrap;
