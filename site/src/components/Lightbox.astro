@@ -1,10 +1,11 @@
 <!-- Drop this component anywhere inside a Base layout. -->
-<!-- Tag any <img> with data-lightbox to make it openable. -->
+<!-- Tag any <img> or <video> with data-lightbox to make it openable. -->
 
 <div id="lb" class="lb" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-close" aria-label="Close">&#x2715;</button>
   <button class="lb-prev" aria-label="Previous">&#x2039;</button>
   <img class="lb-img" src="" alt="" />
+  <video class="lb-img lb-video" muted loop playsinline controls hidden></video>
   <button class="lb-next" aria-label="Next">&#x203A;</button>
 </div>
 
@@ -29,6 +30,10 @@
     object-fit: contain;
     display: block;
     user-select: none;
+  }
+
+  .lb-img[hidden] {
+    display: none;
   }
 
   .lb-close,
@@ -74,15 +79,28 @@
 
 <script>
   const lb = document.getElementById('lb')!;
-  const lbImg = lb.querySelector<HTMLImageElement>('.lb-img')!;
+  const lbImg = lb.querySelector<HTMLImageElement>('img.lb-img')!;
+  const lbVideo = lb.querySelector<HTMLVideoElement>('.lb-video')!;
 
-  let images: HTMLImageElement[] = [];
+  let images: (HTMLImageElement | HTMLVideoElement)[] = [];
   let current = 0;
 
   function open(index: number) {
     current = index;
-    lbImg.src = images[index].src;
-    lbImg.alt = images[index].alt;
+    const el = images[index];
+    const isVid = el instanceof HTMLVideoElement;
+    lbImg.hidden = isVid;
+    lbVideo.hidden = !isVid;
+    if (isVid) {
+      lbImg.src = '';
+      lbVideo.src = el.src;
+      lbVideo.play().catch(() => {});
+    } else {
+      lbVideo.pause();
+      lbVideo.removeAttribute('src');
+      lbImg.src = el.src;
+      lbImg.alt = el.alt;
+    }
     lb.classList.add('open');
     lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -93,13 +111,15 @@
     lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     lbImg.src = '';
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
   }
 
   function prev() { open((current - 1 + images.length) % images.length); }
   function next() { open((current + 1) % images.length); }
 
   document.addEventListener('DOMContentLoaded', () => {
-    images = [...document.querySelectorAll<HTMLImageElement>('[data-lightbox]')];
+    images = [...document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('[data-lightbox]')];
     images.forEach((img, i) => img.addEventListener('click', () => open(i)));
   });
 

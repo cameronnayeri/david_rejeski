@@ -15,6 +15,7 @@ const user = Astro.locals.user;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>{title} — Admin</title>
+    <script is:inline src="/js/admin-upload.js"></script>
   </head>
   <body>
     {showNav && (
@@ -45,6 +46,13 @@ const user = Astro.locals.user;
 </html>
 
 <style is:global>
+  /* Video thumbnails (built by window.mediaThumb) sit where <img> thumbs do. */
+  .vid-badge {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,0.6); color: #fff;
+    font-size: 0.6rem; display: flex; align-items: center; justify-content: center; pointer-events: none;
+  }
+
   :root {
     --bg: #F2EFE3;
     --ink: #1A1A1A;

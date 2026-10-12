@@ -15,7 +15,7 @@ export const DELETE: APIRoute = async ({ params }) => {
     projects.some((p) => p.images.includes(url)) || sketches.some((s) => s.image === url);
 
   if (inUse) {
-    return json({ error: 'This image is still in use and cannot be deleted.' }, 409);
+    return json({ error: 'This file is still in use and cannot be deleted.' }, 409);
   }
 
   await env.MEDIA.delete(key);

@@ -1,4 +1,5 @@
 ---
+import { isVideo } from '../../lib/media';
 import Admin from '../../layouts/Admin.astro';
 import { listProjects } from '../../lib/db';
 import { env } from '../../lib/env';
@@ -22,7 +23,7 @@ const projects = await listProjects(env.DB);
         <li class="proj-row">
           <a class="thumb" href={`/admin/projects/${p.id}`}>
             {p.images[0]
-              ? <img src={p.images[0]} alt="" loading="lazy" />
+              ? isVideo(p.images[0]) ? <video src={`${p.images[0]}#t=0.1`} muted playsinline preload="metadata" /> : <img src={p.images[0]} alt="" loading="lazy" />
               : <span class="thumb-empty">—</span>}
           </a>
           <a class="proj-main" href={`/admin/projects/${p.id}`}>
@@ -56,7 +57,7 @@ const projects = await listProjects(env.DB);
     width: 52px; height: 52px; flex-shrink: 0; border-radius: 6px; overflow: hidden;
     background: #ECEAE0; display: flex; align-items: center; justify-content: center;
   }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; }
   .thumb-empty { color: var(--muted); }
   .proj-main { flex: 1; display: flex; flex-direction: column; text-decoration: none; min-width: 0; }
   .proj-title { font-weight: 600; }

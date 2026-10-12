@@ -1,4 +1,6 @@
 ---
+import { isVideo } from '../lib/media';
+
 export interface Props {
   data: {
     title: string;
@@ -37,7 +39,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     {data.images.length > 0
       ? data.images.map((src, i) => (
           <div class="image-cell">
-            <img src={`${base}${src}`} alt={`${data.title}, view ${i + 1}`} data-lightbox />
+            {isVideo(src)
+              ? <video src={`${base}${src}`} aria-label={`${data.title}, view ${i + 1}`} muted autoplay loop playsinline preload="metadata" data-lightbox />
+              : <img src={`${base}${src}`} alt={`${data.title}, view ${i + 1}`} data-lightbox />}
           </div>
         ))
       : Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (
@@ -55,6 +59,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous">&#x2190;</button>
   <div class="lb-stage" id="lb-stage">
     <img class="lb-img" id="lb-img" src="" alt="" />
+    <video class="lb-img" id="lb-video" muted loop playsinline controls hidden></video>
   </div>
   <button class="lb-btn lb-next" id="lb-next" aria-label="Next">&#x2192;</button>
 </div>
@@ -161,7 +166,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     overflow: hidden;
   }
 
-  .image-cell img {
+  .image-cell img,
+  .image-cell video {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -200,7 +206,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: block;
   }
 
-  .image-grid--masonry .image-cell img {
+  .image-grid--masonry .image-cell img,
+  .image-grid--masonry .image-cell video {
     width: 100%;
     height: auto;
     object-fit: unset;
@@ -222,7 +229,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     background: none;
   }
 
-  .image-grid--masonry-3 .image-cell img {
+  .image-grid--masonry-3 .image-cell img,
+  .image-grid--masonry-3 .image-cell video {
     width: 100%;
     height: auto;
     object-fit: unset;
@@ -242,7 +250,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     overflow: visible;
   }
 
-  .image-grid--alternating .image-cell img {
+  .image-grid--alternating .image-cell img,
+  .image-grid--alternating .image-cell video {
     width: 100%;
     height: auto;
     object-fit: unset;
@@ -255,7 +264,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   /* ── Cover variant ───────────────────────────── */
 
-  .image-grid--cover .image-cell img {
+  .image-grid--cover .image-cell img,
+  .image-grid--cover .image-cell video {
     object-fit: cover;
   }
 
@@ -282,6 +292,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     max-width: calc(100vw - 10rem);
     max-height: 100vh;
     padding: 3rem 0;
+  }
+
+  .lb-img[hidden] {
+    display: none;
   }
 
   .lb-img {
@@ -374,17 +388,30 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </style>
 
 <script>
-  const images = [...document.querySelectorAll<HTMLImageElement>('[data-lightbox]')];
+  const images = [...document.querySelectorAll<HTMLImageElement | HTMLVideoElement>('[data-lightbox]')];
   const lightbox = document.getElementById('lightbox')!;
   const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+  const lbVideo = document.getElementById('lb-video') as HTMLVideoElement;
   const lbPrev = document.getElementById('lb-prev')!;
   const lbNext = document.getElementById('lb-next')!;
   let current = 0;
 
   function show(index: number) {
     current = (index + images.length) % images.length;
-    lbImg.src = images[current].src;
-    lbImg.alt = images[current].alt;
+    const el = images[current];
+    const isVid = el instanceof HTMLVideoElement;
+    lbImg.hidden = isVid;
+    lbVideo.hidden = !isVid;
+    if (isVid) {
+      lbImg.removeAttribute('src');
+      lbVideo.src = el.src;
+      lbVideo.play().catch(() => {});
+    } else {
+      lbVideo.pause();
+      lbVideo.removeAttribute('src');
+      lbImg.src = el.src;
+      lbImg.alt = el.alt;
+    }
     lbPrev.style.visibility = images.length > 1 ? 'visible' : 'hidden';
     lbNext.style.visibility = images.length > 1 ? 'visible' : 'hidden';
     lightbox.hidden = false;
@@ -393,6 +420,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   function close() {
     lightbox.hidden = true;
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
     document.body.style.overflow = '';
   }
 

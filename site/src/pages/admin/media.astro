@@ -2,6 +2,7 @@
 import Admin from '../../layouts/Admin.astro';
 import { listProjects, listSketches } from '../../lib/db';
 import { env } from '../../lib/env';
+import { isVideo } from '../../lib/media';
 
 export const prerender = false;
 
@@ -43,13 +44,15 @@ const freeCount = images.length - usedCount;
     <h1>Media library <span class="count">{images.length}</span></h1>
     <p class="summary">{usedCount} in use · {freeCount} unused</p>
   </div>
-  <p class="lede">Only images not used on any page can be deleted.</p>
+  <p class="lede">Only images and videos not used on any page can be deleted.</p>
 
   <div class="media-grid">
     {images.map((img) => (
       <figure class="media-card" data-key={img.key}>
         <div class="media-thumb">
-          <img src={img.url} alt="" loading="lazy" />
+          {isVideo(img.url)
+            ? <><video src={`${img.url}#t=0.1`} muted playsinline preload="metadata" /><span class="vid-badge">▶</span></>
+            : <img src={img.url} alt="" loading="lazy" />}
         </div>
         <figcaption class="media-info">
           {img.usedBy.length > 0 ? (
@@ -86,8 +89,8 @@ const freeCount = images.length - usedCount;
     position: relative; border: 1px solid var(--divider); border-radius: 8px;
     overflow: hidden; background: var(--field); display: flex; flex-direction: column;
   }
-  .media-thumb { height: 130px; background: #ECEAE0; }
-  .media-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .media-thumb { position: relative; height: 130px; background: #ECEAE0; }
+  .media-thumb img, .media-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .media-info { padding: 0.6rem 0.7rem; font-size: 0.75rem; }
   .usage { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; }
   .usage a { color: var(--ink); text-decoration: none; }
@@ -103,7 +106,7 @@ const freeCount = images.length - usedCount;
   document.querySelectorAll<HTMLButtonElement>('.media-del').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const key = btn.dataset.key!;
-      if (!confirm('Delete this unused image? This cannot be undone.')) return;
+      if (!confirm('Delete this unused file? This cannot be undone.')) return;
       const res = await fetch(`/api/media/${key}`, { method: 'DELETE' });
       if (res.ok) {
         btn.closest('.media-card')?.remove();

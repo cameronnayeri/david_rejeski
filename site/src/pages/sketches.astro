@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Lightbox from '../components/Lightbox.astro';
 import { listSketches } from '../lib/db';
+import { isVideo } from '../lib/media';
 import { env } from '../lib/env';
 
 export const prerender = false;
@@ -23,12 +24,14 @@ const sketches = await listSketches(env.DB);
       {sketches.map((s) => (
         <article class="sketch-card">
           <div class="card-image">
-            <img
-              src={s.image}
-              alt={s.title}
-              loading="lazy"
-              data-lightbox
-            />
+            {isVideo(s.image)
+              ? <video src={s.image} aria-label={s.title} muted autoplay loop playsinline preload="metadata" data-lightbox />
+              : <img
+                  src={s.image}
+                  alt={s.title}
+                  loading="lazy"
+                  data-lightbox
+                />}
           </div>
           <div class="card-info">
             <span class="card-title">{s.title}</span>
@@ -111,7 +114,8 @@ const sketches = await listSketches(env.DB);
     padding: 1.25rem 1rem;
   }
 
-  .card-image img {
+  .card-image img,
+  .card-image video {
     width: 100%;
     height: 100%;
     object-fit: contain;

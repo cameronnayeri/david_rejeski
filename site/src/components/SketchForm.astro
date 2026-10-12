@@ -17,17 +17,18 @@ const isEdit = !!sketch;
   </div>
 
   <div class="field">
-    <label>Image</label>
+    <label>Image or video</label>
     <div id="dropzone" class="dropzone">
-      <p>Drag &amp; drop an image here, or</p>
+      <p>Drag &amp; drop an image or video here, or</p>
       <div class="dz-buttons">
         <button type="button" class="btn btn-secondary" id="pick-files">Choose file</button>
         <button type="button" class="btn btn-secondary" id="pick-library">Pick from library</button>
       </div>
-      <input type="file" id="file-input" accept="image/*" hidden />
+      <input type="file" id="file-input" accept="image/*,video/mp4,video/quicktime,video/webm" hidden />
     </div>
+    <p id="upload-status" class="hint" hidden></p>
     <div id="preview" class="preview" hidden>
-      <img id="preview-img" src="" alt="" />
+      <div id="preview-media"></div>
       <button type="button" class="img-remove" id="img-remove" title="Remove">×</button>
     </div>
   </div>
@@ -47,7 +48,7 @@ const isEdit = !!sketch;
 <div id="library-modal" class="modal" hidden>
   <div class="modal-box">
     <div class="modal-head">
-      <strong>Image library</strong>
+      <strong>Media library</strong>
       <button type="button" class="admin-link" id="lib-close">Close</button>
     </div>
     <div id="lib-grid" class="lib-grid"><p class="lib-loading">Loading…</p></div>
@@ -62,25 +63,35 @@ const isEdit = !!sketch;
     const fileInput = document.getElementById('file-input');
     const dropzone = document.getElementById('dropzone');
     const preview = document.getElementById('preview');
-    const previewImg = document.getElementById('preview-img');
+    const previewMedia = document.getElementById('preview-media');
     let image = initialImage;
 
     function render() {
-      if (image) { previewImg.src = image; preview.hidden = false; }
-      else { previewImg.src = ''; preview.hidden = true; }
+      previewMedia.innerHTML = !image ? ''
+        : window.isVideoUrl(image) ? `<video src="${image}" muted autoplay loop playsinline></video>`
+        : `<img src="${image}" alt="" />`;
+      preview.hidden = !image;
     }
 
     function showError(text) { msg.className = 'msg msg-error'; msg.textContent = text; msg.hidden = false; }
 
     async function uploadFile(file) {
-      if (!file || !file.type.startsWith('image/')) return;
-      const fd = new FormData();
-      fd.append('file', file);
-      fd.append('slug', 'sketches');
-      const res = await fetch('/api/upload', { method: 'POST', body: fd });
-      const out = await res.json();
-      if (out.ok) { image = out.url; render(); }
-      else showError(out.error || 'Upload failed.');
+      if (!file) return;
+      const status = document.getElementById('upload-status');
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      status.hidden = false;
+      status.textContent = `Uploading ${file.name}…`;
+      try {
+        image = await window.uploadMedia(file, 'sketches', (p) => {
+          status.textContent = `Uploading ${file.name}… ${Math.round(p * 100)}%`;
+        });
+        render();
+      } catch (err) {
+        showError(err.message);
+      }
+      status.hidden = true;
+      saveBtn.disabled = false;
     }
 
     document.getElementById('pick-files').addEventListener('click', () => fileInput.click());
@@ -101,12 +112,12 @@ const isEdit = !!sketch;
       grid.innerHTML = '<p class="lib-loading">Loading…</p>';
       const res = await fetch('/api/library');
       const { images: lib } = await res.json();
-      if (!lib.length) { grid.innerHTML = '<p class="lib-loading">No images uploaded yet.</p>'; return; }
+      if (!lib.length) { grid.innerHTML = '<p class="lib-loading">Nothing uploaded yet.</p>'; return; }
       grid.innerHTML = '';
       lib.forEach((img) => {
         const b = document.createElement('button');
         b.type = 'button'; b.className = 'lib-thumb';
-        b.innerHTML = `<img src="${img.url}" alt="" loading="lazy" />`;
+        b.innerHTML = window.mediaThumb(img.url);
         b.addEventListener('click', () => { image = img.url; render(); modal.hidden = true; });
         grid.appendChild(b);
       });
@@ -160,7 +171,7 @@ const isEdit = !!sketch;
     position: relative; width: 160px; margin-top: 0.9rem; border-radius: 6px; overflow: hidden;
     border: 1px solid var(--divider); background: #ECEAE0;
   }
-  .preview img { width: 100%; display: block; }
+  .preview :global(img), .preview :global(video) { width: 100%; display: block; }
   .img-remove {
     position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%;
     border: none; background: rgba(0,0,0,0.65); color: #fff; cursor: pointer; line-height: 1; font-size: 0.9rem;
@@ -189,10 +200,11 @@ const isEdit = !!sketch;
      these rules are :global, anchored to #lib-grid. */
   #lib-grid :global(.lib-loading) { color: var(--muted); grid-column: 1 / -1; }
   #lib-grid :global(.lib-thumb) {
-    display: block; height: 96px; width: 100%; padding: 0; margin: 0;
+    position: relative; display: block; height: 96px; width: 100%; padding: 0; margin: 0;
     border: 1px solid var(--divider); border-radius: 6px; overflow: hidden;
     cursor: pointer; background: #ECEAE0;
   }
   #lib-grid :global(.lib-thumb:hover) { outline: 2px solid var(--accent); }
-  #lib-grid :global(.lib-thumb img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #lib-grid :global(.lib-thumb img),
+  #lib-grid :global(.lib-thumb video) { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>

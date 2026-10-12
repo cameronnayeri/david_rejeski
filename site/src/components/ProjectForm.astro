@@ -55,17 +55,18 @@ const data = project ?? null;
 
   <!-- ── Images ─────────────────────────────── -->
   <div class="field">
-    <label>Images</label>
+    <label>Images &amp; videos</label>
     <div id="dropzone" class="dropzone">
-      <p>Drag &amp; drop images here, or</p>
+      <p>Drag &amp; drop images or videos here, or</p>
       <div class="dz-buttons">
         <button type="button" class="btn btn-secondary" id="pick-files">Choose files</button>
         <button type="button" class="btn btn-secondary" id="pick-library">Pick from library</button>
       </div>
-      <input type="file" id="file-input" accept="image/*" multiple hidden />
+      <input type="file" id="file-input" accept="image/*,video/mp4,video/quicktime,video/webm" multiple hidden />
     </div>
+    <p id="upload-status" class="hint" hidden></p>
     <ul id="image-list" class="image-list"></ul>
-    <p class="hint">Drag thumbnails to reorder. The first image is the cover.</p>
+    <p class="hint">Drag thumbnails to reorder. The first item is the cover. Videos play silently on a loop.</p>
   </div>
 
   <div class="row">
@@ -94,7 +95,7 @@ const data = project ?? null;
 <div id="library-modal" class="modal" hidden>
   <div class="modal-box">
     <div class="modal-head">
-      <strong>Image library</strong>
+      <strong>Media library</strong>
       <button type="button" class="admin-link" id="lib-close">Close</button>
     </div>
     <div id="lib-grid" class="lib-grid"><p class="lib-loading">Loading…</p></div>
@@ -126,7 +127,7 @@ const data = project ?? null;
         li.dataset.index = String(i);
         li.innerHTML =
           `<span class="img-handle" title="Drag to reorder">⠿</span>` +
-          `<img src="${url}" alt="" />` +
+          window.mediaThumb(url) +
           `<button type="button" class="img-remove" title="Remove">×</button>`;
         li.querySelector('.img-remove').addEventListener('click', () => {
           images.splice(i, 1); render();
@@ -152,16 +153,23 @@ const data = project ?? null;
     }
 
     async function uploadFiles(files) {
+      const status = document.getElementById('upload-status');
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
       for (const file of files) {
-        if (!file.type.startsWith('image/')) continue;
-        const fd = new FormData();
-        fd.append('file', file);
-        fd.append('slug', currentSlug());
-        const res = await fetch('/api/upload', { method: 'POST', body: fd });
-        const out = await res.json();
-        if (out.ok) { images.push(out.url); render(); }
-        else { showError(out.error || 'Upload failed.'); }
+        status.hidden = false;
+        status.textContent = `Uploading ${file.name}…`;
+        try {
+          const url = await window.uploadMedia(file, currentSlug(), (p) => {
+            status.textContent = `Uploading ${file.name}… ${Math.round(p * 100)}%`;
+          });
+          images.push(url); render();
+        } catch (err) {
+          showError(err.message);
+        }
       }
+      status.hidden = true;
+      saveBtn.disabled = false;
     }
 
     function showError(text) { msg.className = 'msg msg-error'; msg.textContent = text; msg.hidden = false; }
@@ -185,12 +193,12 @@ const data = project ?? null;
       grid.innerHTML = '<p class="lib-loading">Loading…</p>';
       const res = await fetch('/api/library');
       const { images: lib } = await res.json();
-      if (!lib.length) { grid.innerHTML = '<p class="lib-loading">No images uploaded yet.</p>'; return; }
+      if (!lib.length) { grid.innerHTML = '<p class="lib-loading">Nothing uploaded yet.</p>'; return; }
       grid.innerHTML = '';
       lib.forEach((img) => {
         const b = document.createElement('button');
         b.type = 'button'; b.className = 'lib-thumb';
-        b.innerHTML = `<img src="${img.url}" alt="" loading="lazy" />`;
+        b.innerHTML = window.mediaThumb(img.url);
         b.addEventListener('click', () => {
           if (!images.includes(img.url)) { images.push(img.url); render(); }
           modal.hidden = true;
@@ -263,7 +271,8 @@ const data = project ?? null;
   }
   #image-list :global(.image-item:active) { cursor: grabbing; }
   #image-list :global(.image-item.dragging) { opacity: 0.4; }
-  #image-list :global(.image-item img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #image-list :global(.image-item img),
+  #image-list :global(.image-item video) { width: 100%; height: 100%; object-fit: cover; display: block; }
   #image-list :global(.img-handle) {
     position: absolute; top: 0; left: 0; right: 0; height: 16px; display: flex;
     align-items: center; justify-content: center; font-size: 0.7rem; line-height: 1;
@@ -301,10 +310,11 @@ const data = project ?? null;
   /* Library thumbs are also JS-created — :global, anchored to #lib-grid. */
   #lib-grid :global(.lib-loading) { color: var(--muted); grid-column: 1 / -1; }
   #lib-grid :global(.lib-thumb) {
-    display: block; height: 96px; width: 100%; padding: 0; margin: 0;
+    position: relative; display: block; height: 96px; width: 100%; padding: 0; margin: 0;
     border: 1px solid var(--divider); border-radius: 6px; overflow: hidden;
     cursor: pointer; background: #ECEAE0;
   }
   #lib-grid :global(.lib-thumb:hover) { outline: 2px solid var(--accent); }
-  #lib-grid :global(.lib-thumb img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #lib-grid :global(.lib-thumb img),
+  #lib-grid :global(.lib-thumb video) { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>
